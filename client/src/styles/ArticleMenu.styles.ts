@@ -2,70 +2,6 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { theme } from '../theme';
 
-export const Container = styled.div`
-  --radius: 16px;
-  --border: 1px solid ${theme.colors.border ?? 'rgba(255,255,255,0.12)'};
-  --ring: 2px solid ${theme.colors.accent ?? 'rgba(99,102,241,0.9)'};
-  --shadow: ${theme.shadows.lg};
-
-  min-height: 100dvh;
-  color: ${theme.colors.text.primary};
-  background: ${theme.colors.background};
-  padding: clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  ${theme.breakpoints.mobile} {
-    padding: ${theme.spacing.md};
-  }
-`;
-
-export const Title = styled.h1`
-  margin: 0 auto clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
-  max-width: 1100px;
-  padding-inline: 0;
-  text-align: left;
-  letter-spacing: 0.04em;
-  line-height: 1.08;
-  font-weight: 400;
-  font-size: clamp(
-    ${theme.typography.h1.mobile.fontSize},
-    4vw,
-    ${theme.typography.h1.fontSize}
-  );
-
-  color: #ffffff;
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  position: relative;
-  z-index: 0;
-  text-wrap: balance;
-
-  ${theme.breakpoints.mobile} {
-    max-width: 100%;
-    padding-inline: 0;
-    display: block;
-  }
-`;
-
-export const ArticleGrid = styled.div`
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  gap: clamp(${theme.spacing.md}, 2.5vw, ${theme.spacing.lg});
-  grid-template-columns: 1fr;
-
-  ${theme.breakpoints.desktop} {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  ${theme.breakpoints.mobile} {
-    gap: ${theme.spacing.md};
-  }
-`;
-
 export const ArticleCard = styled(Link)`
   position: relative;
   display: grid;
@@ -152,35 +88,6 @@ export const ArticleInfo = styled.div`
   }
 `;
 
-export const ArticleTitle = styled.h2`
-  margin: 0;
-  color: ${theme.colors.text.primary};
-  font-size: clamp(
-    ${theme.typography.h2.mobile.fontSize},
-    2.2vw,
-    ${theme.typography.h2.fontSize}
-  );
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`;
-
-export const ArticleDate = styled.p`
-  margin: 0;
-  color: ${theme.colors.text.primary};
-  font-size: clamp(0.95rem, 0.7rem + 0.55vw, 1.2rem);
-  line-height: 1.25;
-
-  &::before {
-    margin-right: 0.5ch;
-    opacity: 0.9;
-  }
-`;
-
 export const ArticleAuthor = styled.p`
   margin: 0;
   color: ${theme.colors.text.secondary ?? 'rgba(255,255,255,0.78)'};
@@ -191,3 +98,11 @@ export const ArticleAuthor = styled.p`
     font-size: clamp(0.82rem, 1.6vw, 0.98rem);
   }
 `;
+
+export {
+  Container,
+  Title,
+  Grid as ArticleGrid,
+  CardTitle as ArticleTitle,
+  DateLabel as ArticleDate,
+} from './Catalog.styles';

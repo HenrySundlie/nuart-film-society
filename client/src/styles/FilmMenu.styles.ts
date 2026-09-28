@@ -2,74 +2,6 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { theme } from '../theme';
 
-export const Container = styled.div`
-  --radius: 16px;
-  --border: 1px solid ${theme.colors.border ?? 'rgba(255,255,255,0.12)'};
-  --ring: 2px solid ${theme.colors.accent ?? 'rgba(99,102,241,0.9)'};
-  --shadow: ${theme.shadows.lg};
-
-  min-height: 100dvh;
-  color: ${theme.colors.text.primary};
-  /* Match Home page: remove lighter radial gradient so all screens share
-     identical dark background */
-  background: ${theme.colors.background};
-  padding: clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  ${theme.breakpoints.mobile} {
-    padding: ${theme.spacing.md};
-  }
-`;
-
-export const Title = styled.h1`
-  /* Center within the same max-width as the film grid so left edges align */
-  margin: 0 auto clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
-  max-width: 1100px;
-  padding-inline: 0;
-  text-align: left;
-  letter-spacing: 0.04em;
-  line-height: 1.08;
-  font-weight: 400;
-  font-size: clamp(
-    ${theme.typography.h1.mobile.fontSize},
-    4vw,
-    ${theme.typography.h1.fontSize}
-  );
-
-  color: #ffffff;
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  position: relative;
-  z-index: 0;
-  text-wrap: balance;
-
-  ${theme.breakpoints.mobile} {
-    /* On mobile we keep it full width inside container padding */
-    max-width: 100%;
-    padding-inline: 0;
-    display: block;
-  }
-`;
-
-export const FilmGrid = styled.div`
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  gap: clamp(${theme.spacing.md}, 2.5vw, ${theme.spacing.lg});
-  grid-template-columns: 1fr;
-
-  ${theme.breakpoints.desktop} {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  ${theme.breakpoints.mobile} {
-    gap: ${theme.spacing.md};
-  }
-`;
-
 export const FilmCard = styled(Link)`
   position: relative;
   display: grid;
@@ -166,13 +98,16 @@ export const FilmInfo = styled.div`
   color: ${theme.colors.text.primary};
   min-width: 0; /* allow text truncation/clamping */
 
-  .film-title-row { grid-area: title; align-self: start; }
-  .details { 
-    grid-area: details; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 1px; 
-    align-items: flex-start; 
+  .film-title-row {
+    grid-area: title;
+    align-self: start;
+  }
+  .details {
+    grid-area: details;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    align-items: flex-start;
   }
   .ticket-btn {
     grid-area: ticket;
@@ -194,8 +129,12 @@ export const FilmInfo = styled.div`
     background: ${theme.colors.surfaceDeep};
     border: 1px solid ${theme.colors.text.light};
     color: #ffffff; /* Force white text for Buy Tickets button */
-  border-radius: ${theme.radii.md}; /* match global card radius for consistency */
-    transition: background ${theme.transitions.default}, color ${theme.transitions.default}, border-color ${theme.transitions.default}, box-shadow ${theme.transitions.default};
+    border-radius: ${theme.radii.md}; /* match global card radius for consistency */
+    transition:
+      background ${theme.transitions.default},
+      color ${theme.transitions.default},
+      border-color ${theme.transitions.default},
+      box-shadow ${theme.transitions.default};
 
     &:hover {
       background: ${theme.colors.surfaceDeep};
@@ -212,13 +151,19 @@ export const FilmInfo = styled.div`
     /* Desktop-only: slightly lighter charcoal background for better prominence */
     ${theme.breakpoints.desktop} {
       background: #141414; /* between surfaceDeep (#0B0B0B) and surface (#282828) */
-      &:hover { background: #181818; }
-      &:active { background: #101010; }
+      &:hover {
+        background: #181818;
+      }
+      &:active {
+        background: #101010;
+      }
     }
   }
 
   /* Ensure long titles don't push layout oddly */
-  .film-title-row > * { margin-bottom: 2px; }
+  .film-title-row > * {
+    margin-bottom: 2px;
+  }
 
   /* Mobile: revert to previous vertical flow with full-width ticket button at bottom */
   ${theme.breakpoints.mobile} {
@@ -229,8 +174,12 @@ export const FilmInfo = styled.div`
     text-align: center;
     gap: calc(${theme.spacing.sm} * 0.6);
 
-    .film-title-row { align-self: center; }
-    .details { align-items: center; }
+    .film-title-row {
+      align-self: center;
+    }
+    .details {
+      align-items: center;
+    }
     .ticket-btn {
       width: 100%;
       aspect-ratio: auto; /* allow natural height */
@@ -243,7 +192,8 @@ export const FilmInfo = styled.div`
 
   ${FilmCard}.compact & {
     /* Balanced horizontal padding; center content */
-    padding: calc(${theme.spacing.xs} + 4px) clamp(${theme.spacing.md}, 4vw, ${theme.spacing.lg});
+    padding: calc(${theme.spacing.xs} + 4px)
+      clamp(${theme.spacing.md}, 4vw, ${theme.spacing.lg});
     gap: ${theme.spacing.xs};
     justify-items: center;
     text-align: center;
@@ -251,38 +201,6 @@ export const FilmInfo = styled.div`
     /* Compact variant keeps original simple stack */
     grid-template-areas: 'title';
     grid-template-columns: 1fr;
-  }
-`;
-
-export const FilmTitle = styled.h2`
-  margin: 0;
-  color: ${theme.colors.text.primary};
-  font-size: clamp(
-    ${theme.typography.h2.mobile.fontSize},
-    2.2vw,
-    ${theme.typography.h2.fontSize}
-  );
-  /* Drop the heavier default h2 weight; make card titles lighter */
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`;
-
-export const FilmDate = styled.p`
-  margin: 0;
-  color: ${theme.colors.text.primary};
-  /* Larger on desktop; keep mobile near current size */
-  font-size: clamp(0.95rem, 0.7rem + 0.55vw, 1.2rem);
-  /* Slightly tighter line-height so card height does not expand */
-  line-height: 1.25;
-
-  &::before {
-    margin-right: 0.5ch;
-    opacity: 0.9;
   }
 `;
 
@@ -310,24 +228,16 @@ export const SectionHeading = styled.h2`
     opacity: 0.8;
   }
 
-  &::before { margin-left: clamp(0.5rem, 2vw, 2rem); }
-  &::after { margin-right: clamp(0.5rem, 2vw, 2rem); }
+  &::before {
+    margin-left: clamp(0.5rem, 2vw, 2rem);
+  }
+  &::after {
+    margin-right: clamp(0.5rem, 2vw, 2rem);
+  }
 
   ${theme.breakpoints.mobile} {
     gap: 0.85rem;
     font-size: clamp(1.4rem, 5.5vw, 1.75rem);
-  }
-`;
-
-export const FilmTime = styled.p`
-  margin: 0;
-  color: ${theme.colors.text.primary};
-  font-size: clamp(0.95rem, 0.7rem + 0.55vw, 1.2rem);
-  line-height: 1.25;
-
-  &::before {
-    margin-right: 0.5ch;
-    opacity: 0.9;
   }
 `;
 
@@ -347,3 +257,12 @@ export const FilmNote = styled.p`
     text-align: center;
   }
 `;
+
+export {
+  Container,
+  Title,
+  Grid as FilmGrid,
+  CardTitle as FilmTitle,
+  DateLabel as FilmDate,
+  DateLabel as FilmTime,
+} from './Catalog.styles';

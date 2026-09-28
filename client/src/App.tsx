@@ -1,7 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { lazy, Suspense, useMemo } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import Home from './pages/Home';
-const Calendar = lazy(() => import('./pages/Calendar'));
 const FilmMenu = lazy(() => import('./pages/FilmMenu'));
 const FilmPage = lazy(() => import('./pages/FilmPage'));
 const ArticleMenu = lazy(() => import('./pages/ArticleMenu'));
@@ -10,7 +14,6 @@ import Menu from './components/Menu';
 import styled from '@emotion/styled';
 import { theme } from './theme';
 import { Global } from '@emotion/react';
-// import { isMobileViewport, onViewportChange } from './utils/responsive';
 
 const globalStyles = `
   html, body {
@@ -53,7 +56,6 @@ export default function App() {
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/calendar" element={<Calendar />} />
             <Route path="/films" element={<FilmMenu />} />
             <Route path="/film/:id" element={<FilmPage />} />
             <Route path="/articles" element={<ArticleMenu />} />
@@ -67,12 +69,7 @@ export default function App() {
 
 function MenuVisibilityController() {
   const location = useLocation();
-  // No need to track viewport here since we never show Menu on Home regardless of viewport.
-
-  const isHome = useMemo(() => {
-    const p = location.pathname.replace(/\/?$/, '/');
-    return p === '/';
-  }, [location.pathname]);
+  const isHome = location.pathname.replace(/\/?$/, '/') === '/';
 
   // Never show global Menu on the Home route. Home page manages its own mobile menu.
   if (isHome) return null;

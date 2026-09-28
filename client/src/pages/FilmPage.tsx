@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { filmStore } from '../stores/FilmStore';
-import { useEffect, Suspense, useState } from 'react';
-import { observer } from 'mobx-react-lite';
+import { films } from '../data/films';
+import Markdown from '../components/Markdown';
+import { useMarkdown } from '../hooks/useMarkdown';
 import {
   Container,
   Content,
@@ -13,9 +13,6 @@ import {
   FilmArticle,
   BackLink,
 } from '../styles/FilmPage.styles';
-import { lazy } from 'react';
-const ReactMarkdown = lazy(() => import('react-markdown'));
-// Removed Button import; using LinkButton for consistent sizing
 import { LinkButton } from '../components/LinkButton';
 import AddToGoogleCalendar from '../components/AddToGoogleCalendar';
 
@@ -38,48 +35,27 @@ function nextUpcomingDate(dates?: string[]): string | undefined {
     .filter(Boolean)
     .map((d) => new Date(d).getTime())
     .sort((a, b) => a - b);
-  const next = sorted.find((t) => t >= now.getTime()) ?? sorted[sorted.length - 1];
+  const next =
+    sorted.find((t) => t >= now.getTime()) ?? sorted[sorted.length - 1];
   return next ? new Date(next).toISOString().slice(0, 10) : undefined;
 }
 
-const FilmPage = observer(() => {
+export default function FilmPage() {
   const { id } = useParams<{ id: string }>();
-  const [articleMd, setArticleMd] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (filmStore.films.length === 0) filmStore.fetchFilms();
-  }, []);
-
-  // Lookup directly so it updates when the store populates after initial fetch
-  const film = filmStore.films.find((f) => f.id === Number(id));
+  const film = films.find((f) => f.id === Number(id));
+  const articleMd = useMarkdown(
+    'films',
+    film && (film.article || `film-${film.id}`)
+  );
 
   if (!film) return <Container>Film not found</Container>;
-
-  // Determine potential article slug: explicit film.article or fallback film-<id>
-  useEffect(() => {
-    let isMounted = true;
-    const slug = film.article || `film-${film.id}`;
-    // Dynamic import – rely on Vite's handling; if not found, silently ignore
-    import(`../content/films/${slug}.md?raw`)
-      .then((mod) => {
-        if (isMounted) setArticleMd(mod.default || String(mod));
-      })
-      .catch(() => {
-        if (isMounted) {
-          setArticleMd(null); // Not found is fine – keep empty
-        }
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, [film.id, film.article]);
 
   return (
     <Container>
       <Content>
-  <BackLink to="/films" aria-label="Back to film list" />
-    <Title>{film.title}</Title>
-    <InfoSection>
+        <BackLink to="/films" aria-label="Back to film list" />
+        <Title>{film.title}</Title>
+        <InfoSection>
           <InfoItem>
             <Label>Year:</Label> {film.year}
           </InfoItem>
@@ -97,9 +73,7 @@ const FilmPage = observer(() => {
             {film.runDates && film.runDates.length > 1
               ? film.runDates
                   .slice()
-                  .sort(
-                    (a, b) => new Date(a).getTime() - new Date(b).getTime()
-                  )
+                  .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
                   .map(fmtDate)
                   .join(' · ')
               : fmtDate(film.runDates?.[0])}
@@ -130,14 +104,10 @@ const FilmPage = observer(() => {
         <Description>{film.description}</Description>
         {articleMd && (
           <FilmArticle>
-            <Suspense fallback={null}>
-              <ReactMarkdown>{articleMd}</ReactMarkdown>
-            </Suspense>
+            <Markdown>{articleMd}</Markdown>
           </FilmArticle>
         )}
       </Content>
     </Container>
   );
-});
-
-export default FilmPage;
+}

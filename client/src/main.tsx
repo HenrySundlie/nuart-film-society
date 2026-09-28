@@ -10,7 +10,7 @@ if (savedPath) {
 }
 
 const root = createRoot(document.getElementById('root')!);
-// Avoid StrictMode double-invocations in production for tiny perf win
+// Enable development checks without changing production rendering.
 if (import.meta.env.DEV) {
   const { StrictMode } = await import('react');
   root.render(

@@ -1,40 +1,14 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { BackLink as BaseBackLink } from './Detail.styles';
 import { theme } from '../theme';
 
-export const BackLink = styled(Link)`
-  justify-self: start;
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  border-radius: 50%;
-  border: 1px solid ${theme.colors.text.light};
-  background: ${theme.colors.surfaceDeep};
-  color: ${theme.colors.text.light};
-  position: relative;
-  transition: background ${theme.transitions.default}, color ${theme.transitions.default}, border-color ${theme.transitions.default}, filter ${theme.transitions.default};
+export const BackLink = styled(BaseBackLink)`
   margin-bottom: ${theme.spacing.lg};
-
-  &::before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-top: 2px solid currentColor;
-    border-left: 2px solid currentColor;
-    transform: rotate(-45deg) translateX(2px);
-    margin-left: 2px;
-  }
-
-  &:hover { filter: brightness(1.15); }
-  &:active { filter: brightness(0.9); }
-  &:focus-visible { outline: var(--ring); outline-offset: 3px; }
 `;
 
 export const Title = styled.h1`
-  margin: clamp(${theme.spacing.md}, 2vw, ${theme.spacing.lg}) 0 clamp(${theme.spacing.md}, 2vw, ${theme.spacing.lg});
+  margin: clamp(${theme.spacing.md}, 2vw, ${theme.spacing.lg}) 0
+    clamp(${theme.spacing.md}, 2vw, ${theme.spacing.lg});
   font-size: clamp(
     ${theme.typography.h1.mobile.fontSize},
     4vw,
@@ -66,23 +40,6 @@ export const MetaSection = styled.div`
   margin: clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl}) 0;
 `;
 
-export const MetaItem = styled.p`
-  margin: 0;
-  display: grid;
-  grid-template-columns: max(110px, 28%) 1fr;
-  align-items: baseline;
-  gap: calc(${theme.spacing.md} * 0.5);
-  line-height: 1.6;
-  color: ${theme.colors.text.primary};
-`;
-
-export const Label = styled.strong`
-  color: ${theme.colors.text.primary};
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-`;
-
 export const Description = styled.p`
   margin: clamp(${theme.spacing.md}, 3vw, ${theme.spacing.lg}) 0;
   color: ${theme.colors.text.primary};
@@ -91,4 +48,74 @@ export const Description = styled.p`
   text-wrap: pretty;
   hanging-punctuation: first allow-end;
   hyphens: auto;
+`;
+
+export { InfoItem as MetaItem, Label } from './Detail.styles';
+
+// Article content uses home page's ContentText styling for consistency
+export const ArticleContent = styled.article`
+  /* Use the same text styling as home page content */
+  p {
+    margin-bottom: ${theme.spacing.md};
+    text-align: justify;
+    hyphens: auto;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h2,
+  h3,
+  h4 {
+    color: ${theme.colors.text.primary};
+    margin: ${theme.spacing.lg} 0 ${theme.spacing.md} 0;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  h3 {
+    font-size: 1.1em;
+  }
+
+  ul,
+  ol {
+    margin: ${theme.spacing.md} 0;
+    padding-left: ${theme.spacing.lg};
+  }
+
+  li {
+    margin-bottom: ${theme.spacing.sm};
+  }
+
+  a {
+    color: ${theme.colors.link};
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    &:focus-visible {
+      outline: ${theme.shadows.focus};
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+  }
+
+  blockquote {
+    margin: 1.5em 0;
+    padding: 0.75em 1em;
+    border-left: 4px solid ${theme.colors.text.light};
+    background: rgba(255, 255, 255, 0.04);
+    font-style: italic;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: ${theme.spacing.lg} 0;
+    border-radius: ${theme.radii.md};
+  }
 `;

@@ -52,16 +52,25 @@ export default function Menu({ visibleOverride }: MenuProps) {
 
   return (
     <>
-      <MenuIcon onClick={openMenu} visible={shouldShowIcon} aria-label="Open menu">
+      <MenuIcon
+        onClick={openMenu}
+        visible={shouldShowIcon}
+        aria-label="Open menu"
+      >
         <div />
         <div />
         <div />
       </MenuIcon>
       <MenuCard isOpen={isOpen} ref={menuCardRef} visible={shouldShowIcon}>
-  <NavLink to="/" onClick={closeMenu}>Home</NavLink>
-  <NavLink to="/calendar" onClick={closeMenu}>Calendar</NavLink>
-  <NavLink to="/films" onClick={closeMenu}>Films</NavLink>
-  <NavLink to="/articles" onClick={closeMenu}>Articles & Reviews</NavLink>
+        <NavLink to="/" onClick={closeMenu}>
+          Home
+        </NavLink>
+        <NavLink to="/films" onClick={closeMenu}>
+          Films
+        </NavLink>
+        <NavLink to="/articles" onClick={closeMenu}>
+          Articles & Reviews
+        </NavLink>
       </MenuCard>
     </>
   );

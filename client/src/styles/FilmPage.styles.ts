@@ -1,16 +1,10 @@
 // Film detail page styles
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { theme } from '../theme';
 
 export const Container = styled.div`
-  --radius: 18px;
-  --border: 1px solid ${theme.colors.border ?? 'rgba(255,255,255,0.12)'};
-  --shadow: ${theme.shadows.lg};
-
   min-height: 100dvh;
   color: ${theme.colors.text.primary};
-  /* Unified background to match Home page (removed radial highlight) */
   background: ${theme.colors.background};
   padding: clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
 
@@ -25,37 +19,6 @@ export const Content = styled.div`
   grid-template-columns: 1fr;
   gap: clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
   align-items: start;
-`;
-
-export const BackLink = styled(Link)`
-  justify-self: start;
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  border-radius: 50%;
-  border: 1px solid ${theme.colors.text.light};
-  background: ${theme.colors.surfaceDeep};
-  color: ${theme.colors.text.light};
-  position: relative;
-  transition: background ${theme.transitions.default}, color ${theme.transitions.default}, border-color ${theme.transitions.default}, filter ${theme.transitions.default};
-
-  /* Chevron (no stem) pointing left created with borders */
-  &::before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-top: 2px solid currentColor;
-    border-left: 2px solid currentColor;
-    transform: rotate(-45deg) translateX(2px); /* visually center */
-    margin-left: 2px;
-  }
-
-  &:hover { filter: brightness(1.15); }
-  &:active { filter: brightness(0.9); }
-  &:focus-visible { outline: var(--ring); outline-offset: 3px; }
 `;
 
 export const Title = styled.h1`
@@ -78,8 +41,6 @@ export const Title = styled.h1`
   text-wrap: balance;
 `;
 
-/* Poster image removed from FilmPage */
-
 export const InfoSection = styled.div`
   position: relative;
   /* Match FilmMenu card styling */
@@ -93,23 +54,6 @@ export const InfoSection = styled.div`
   /* Remove heavy blur overlay to match crisper FilmMenu card */
   backdrop-filter: none;
   color: ${theme.colors.text.primary};
-`;
-
-export const InfoItem = styled.p`
-  margin: 0;
-  display: grid;
-  grid-template-columns: max(110px, 28%) 1fr;
-  align-items: baseline;
-  gap: calc(${theme.spacing.md} * 0.5);
-  line-height: 1.6;
-  color: ${theme.colors.text.primary};
-`;
-
-export const Label = styled.strong`
-  color: ${theme.colors.text.primary};
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-size: 0.85rem;
 `;
 
 export const Description = styled.p`
@@ -137,7 +81,9 @@ export const FilmArticle = styled.article`
   font-size: clamp(1rem, 1.05vw, 1.1rem);
   color: ${theme.colors.text.primary};
 
-  h2, h3, h4 {
+  h2,
+  h3,
+  h4 {
     font-weight: 500;
     letter-spacing: 0.04em;
     line-height: 1.25;
@@ -160,7 +106,8 @@ export const FilmArticle = styled.article`
     }
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin: 1em 0 1.25em;
     padding-left: 1.25em;
   }
@@ -169,7 +116,9 @@ export const FilmArticle = styled.article`
     margin: 1.5em 0;
     padding: 0.75em 1em;
     border-left: 4px solid ${theme.colors.text.light};
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
     font-style: italic;
   }
 `;
+
+export { BackLink, InfoItem, Label } from './Detail.styles';
