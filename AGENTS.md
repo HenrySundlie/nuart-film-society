@@ -1,4 +1,4 @@
-# NU ART Film Club
+# Nuart Film Society
 
 - Static React 19 + TypeScript site in the `client` npm workspace; Vite builds to `client/dist`. No backend.
 - Run `npm ci` at the root. Use `npm run -w client dev`, `npm run -w client lint`, and `npm run -w client build`.
