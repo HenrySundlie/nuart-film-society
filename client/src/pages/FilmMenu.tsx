@@ -105,7 +105,7 @@ export default function FilmMenu() {
             <div className="details">
               <FilmNote>
                 Blinis Demidoff & Babette’s Feast: Only 50 seats available
-                (balcony club)! An unforgettable evening of
+                (balcony seating)! An unforgettable evening of
                 flavor, film, and French elegance. General admission tickets
                 available per usual.
               </FilmNote>

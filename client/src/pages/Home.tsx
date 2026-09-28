@@ -172,7 +172,7 @@ const Home = () => {
                   </li>
                   <li>
                     <a
-                      href="https://www.instagram.com/nuartfilmclub"
+                      href="https://www.instagram.com/nuartfilmsociety"
                       target="_blank"
                       rel="noreferrer noopener"
                     >
