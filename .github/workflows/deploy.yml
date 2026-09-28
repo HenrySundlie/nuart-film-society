@@ -22,9 +22,6 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Ensure latest npm
-        run: npm i -g npm@latest
-
       - name: Install Dependencies
         # Run at workspace root so npm correctly installs optional platform-specific
         # Rollup binaries for all workspaces (fixes missing @rollup/rollup-linux-x64-gnu).
