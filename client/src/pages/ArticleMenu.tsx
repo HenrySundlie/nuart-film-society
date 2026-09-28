@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useCallback } from 'react';
-import { articleStore } from '../stores/ArticleStore';
-import { observer } from 'mobx-react-lite';
+import { articles, type Article } from '../data/articles';
 import {
   Container,
   Title,
@@ -14,40 +12,46 @@ import {
 } from '../styles/ArticleMenu.styles';
 import { useAutoFitText } from '../hooks/useAutoFitText';
 
-type Article = typeof articleStore.articles[number];
-
 const toDate = (iso: string) => {
   const d = new Date(`${iso}T00:00:00`);
   return isNaN(d.getTime()) ? undefined : d;
 };
 
 const AutoFitTitle = ({ text }: { text: string }) => {
-  const isNarrow = typeof window !== 'undefined' ? window.matchMedia('(max-width: 420px)').matches : false;
+  const isNarrow =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(max-width: 420px)').matches
+      : false;
   const minPx = isNarrow ? 14 : 12;
-  const setRef = useAutoFitText<HTMLHeadingElement>({ maxLines: 2, minFontSizePx: minPx, deps: [text, isNarrow] });
+  const setRef = useAutoFitText<HTMLHeadingElement>({
+    maxLines: 2,
+    minFontSizePx: minPx,
+    text,
+  });
   return <ArticleTitle ref={setRef}>{text}</ArticleTitle>;
 };
 
-const ArticleMenu = observer(() => {
-  useEffect(() => {
-    articleStore.fetchArticles();
-  }, []);
+export default function ArticleMenu() {
+  const pageTitleRef = useAutoFitText<HTMLHeadingElement>({
+    maxLines: 1,
+    minFontSizePx: 18,
+  });
 
-  const pageTitleRef = useAutoFitText<HTMLHeadingElement>({ maxLines: 1, minFontSizePx: 18 });
+  const sortedArticles = articles.slice().sort((a, b) => {
+    const dateA = toDate(a.date)?.getTime() ?? 0;
+    const dateB = toDate(b.date)?.getTime() ?? 0;
+    return dateB - dateA; // Most recent first
+  });
 
-  const sortedArticles = useMemo(() => {
-    return articleStore.articles.slice().sort((a, b) => {
-      const dateA = toDate(a.date)?.getTime() ?? 0;
-      const dateB = toDate(b.date)?.getTime() ?? 0;
-      return dateB - dateA; // Most recent first
-    });
-  }, [articleStore.articles]);
-
-  const formatDate = useCallback((iso: string) => {
+  const formatDate = (iso: string) => {
     const d = toDate(iso);
     if (!d) return '';
-    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-  }, []);
+    return d.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
 
   const renderArticleCard = (article: Article) => (
     <ArticleCard to={`/article/${article.id}`} key={article.id}>
@@ -76,6 +80,4 @@ const ArticleMenu = observer(() => {
       </ArticleGrid>
     </Container>
   );
-});
-
-export default ArticleMenu;
+}

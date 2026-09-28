@@ -41,8 +41,7 @@ const StyledAnchor = styled.a`
   ${linkButtonStyles}
 `;
 
-interface LinkButtonProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface LinkButtonProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to?: string;
 }
 

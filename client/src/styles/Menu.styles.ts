@@ -44,7 +44,7 @@ export const MenuCard = styled.div<{ isOpen: boolean; visible?: boolean }>`
   background-color: ${theme.colors.surfaceDeep};
   border: 1px solid ${theme.colors.text.light};
   border-radius: ${({ isOpen }) => (isOpen ? '20px' : '50%')};
-  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease-in-out;
   z-index: 1001;
   padding: ${({ isOpen }) => (isOpen ? `${theme.spacing.md}` : '0')};

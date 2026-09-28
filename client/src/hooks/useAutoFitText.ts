@@ -5,42 +5,39 @@ type Options = {
   maxLines?: number;
   /** Minimum font-size in px. Defaults to 12. */
   minFontSizePx?: number;
-  /** Optional maximum font-size. Defaults to the computed font-size of the element. */
-  maxFontSizePx?: number;
-  /** Rerun fitting when this value changes (e.g., the text). */
-  deps?: unknown[];
+  /** Text to measure; defaults to the element's text content. */
+  text?: string;
 };
 
 /**
  * Auto-resizes the font-size of an element so its content fits within a max line count.
  * Works even when the visible element uses CSS line-clamp by measuring with an offscreen clone.
  */
-export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Options = {}) {
-  const { maxLines = 2, minFontSizePx = 12, maxFontSizePx, deps = [] } = options;
+export function useAutoFitText<T extends HTMLElement = HTMLElement>(
+  options: Options = {}
+) {
+  const { maxLines = 2, minFontSizePx = 12, text } = options;
 
   const elRef = useRef<T | null>(null);
-  const cleanupRef = useRef<() => void>(() => {});
-  const roRef = useRef<ResizeObserver | null>(null);
-  const moRef = useRef<MutationObserver | null>(null);
 
   const measureAndFit = useCallback(() => {
     const el = elRef.current;
     if (!el) return;
 
-  // Clear inline font-size so we can recompute the CSS max size on widen
-  el.style.fontSize = '';
+    // Clear inline font-size so we can recompute the CSS max size on widen
+    el.style.fontSize = '';
 
-  // Compute current styles to mirror in the measuring node (post-clear)
-  const baseStyles = getComputedStyle(el);
-  let startFontPx = maxFontSizePx ?? parseFloat(baseStyles.fontSize || '16');
-  // Nudge start slightly up to avoid getting stuck below CSS clamp max due to rounding
-  startFontPx = Math.max(startFontPx, Math.ceil(startFontPx));
-  // If we somehow can't compute sizing, bail
+    // Compute current styles to mirror in the measuring node (post-clear)
+    const baseStyles = getComputedStyle(el);
+    let startFontPx = parseFloat(baseStyles.fontSize || '16');
+    // Nudge start slightly up to avoid getting stuck below CSS clamp max due to rounding
+    startFontPx = Math.max(startFontPx, Math.ceil(startFontPx));
+    // If we somehow can't compute sizing, bail
     if (!isFinite(startFontPx) || startFontPx <= 0) return;
 
     // Prepare a hidden measuring element (offscreen, no clamp)
     const meas = document.createElement('div');
-  meas.textContent = el.textContent ?? '';
+    meas.textContent = text ?? el.textContent ?? '';
     // Copy text-related styles for fidelity
     const copyProps = [
       'fontFamily',
@@ -57,9 +54,9 @@ export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Opt
       'hyphens',
     ] as const;
     copyProps.forEach((p) => {
-      (meas.style as any)[p] = (baseStyles as any)[p];
+      meas.style[p] = baseStyles[p];
     });
-  meas.style.position = 'fixed';
+    meas.style.position = 'fixed';
     meas.style.top = '-9999px';
     meas.style.left = '0';
     meas.style.visibility = 'hidden';
@@ -67,13 +64,15 @@ export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Opt
     meas.style.whiteSpace = 'normal';
     meas.style.display = 'block';
     meas.style.boxSizing = 'border-box';
-  meas.style.margin = '0';
-  meas.style.padding = '0';
-  meas.style.border = '0';
+    meas.style.margin = '0';
+    meas.style.padding = '0';
+    meas.style.border = '0';
 
     // Use the actual available width of the element (content-box)
-  const width = Math.floor(el.clientWidth || el.getBoundingClientRect().width);
-  meas.style.width = `${width}px`;
+    const width = Math.floor(
+      el.clientWidth || el.getBoundingClientRect().width
+    );
+    meas.style.width = `${width}px`;
     meas.style.lineHeight = baseStyles.lineHeight; // preserve the 1.2 unitless ratio
 
     document.body.appendChild(meas);
@@ -81,7 +80,9 @@ export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Opt
     const fitsAt = (fontPx: number) => {
       meas.style.fontSize = `${fontPx}px`;
       // Allowed height in px for maxLines
-      const lhPx = parseFloat(getComputedStyle(meas).lineHeight || `${fontPx * 1.2}`) || fontPx * 1.2;
+      const lhPx =
+        parseFloat(getComputedStyle(meas).lineHeight || `${fontPx * 1.2}`) ||
+        fontPx * 1.2;
       const allowed = lhPx * maxLines + 0.5; // small epsilon
       const needed = meas.scrollHeight;
       return needed <= allowed;
@@ -93,7 +94,7 @@ export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Opt
 
     // Fast path: if the starting size fits, keep it
     if (fitsAt(hi)) {
-  el.style.fontSize = `${hi}px`;
+      el.style.fontSize = `${hi}px`;
       document.body.removeChild(meas);
       return;
     }
@@ -110,14 +111,13 @@ export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Opt
       }
     }
 
-  el.style.fontSize = `${best}px`;
+    el.style.fontSize = `${best}px`;
     document.body.removeChild(meas);
-  }, [maxLines, minFontSizePx, maxFontSizePx, ...deps]);
+  }, [maxLines, minFontSizePx, text]);
 
   // Fit on mount and whenever deps change (layout effect to avoid flicker)
   useLayoutEffect(() => {
     measureAndFit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [measureAndFit]);
 
   // Observe size and text changes
@@ -125,27 +125,28 @@ export function useAutoFitText<T extends HTMLElement = HTMLElement>(options: Opt
     const el = elRef.current;
     if (!el) return;
 
-    // ResizeObserver for width changes
-    const ro = new ResizeObserver(() => {
-      // Throttle via rAF to avoid bursts
-      requestAnimationFrame(measureAndFit);
-    });
-    roRef.current = ro;
+    let frame: number | undefined;
+    const scheduleFit = () => {
+      if (frame !== undefined) return;
+      frame = requestAnimationFrame(() => {
+        frame = undefined;
+        measureAndFit();
+      });
+    };
+
+    const ro = new ResizeObserver(scheduleFit);
     ro.observe(el);
     if (el.parentElement) ro.observe(el.parentElement);
 
     // MutationObserver for text changes
-    const mo = new MutationObserver(() => {
-      requestAnimationFrame(measureAndFit);
-    });
-    moRef.current = mo;
+    const mo = new MutationObserver(scheduleFit);
     mo.observe(el, { childList: true, characterData: true, subtree: true });
 
-    cleanupRef.current = () => {
+    return () => {
       ro.disconnect();
       mo.disconnect();
+      if (frame !== undefined) cancelAnimationFrame(frame);
     };
-    return () => cleanupRef.current();
   }, [measureAndFit]);
 
   const setRef = useCallback((node: T | null) => {
