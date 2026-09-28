@@ -1,0 +1,1 @@
+const e=[{id:1,title:"The Beaten Mariner: A Preview of Christopher Nolan's Odyssey",date:"2025-12-24",author:"Jonathan Adams",description:"",img:"/images/the-odyssey-still.jpg",article:"article-1"}],t=e;export{t as a};
