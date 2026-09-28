@@ -1,4 +1,4 @@
-# NU ART Film Club
+# Nuart Film Society
 
 A static React, TypeScript, and Vite website for film screenings and articles at the Nuart Theatre in Moscow, Idaho.
 

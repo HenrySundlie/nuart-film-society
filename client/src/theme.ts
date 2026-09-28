@@ -3,7 +3,7 @@ export const theme = {
     secondary: '#BDBDBD',
     accent: '#6366F1', // focus rings, CTAs
     link: '#C7D2FE', // link text
-    nuartBlue: '#4357AD', // NuArt brand blue color
+    nuartBlue: '#4357AD', // Nuart Film Society brand blue color
     // Slightly lighter default background for the whole site
     background: '#1C1C1C',
     surface: '#282828',

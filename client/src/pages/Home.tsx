@@ -123,7 +123,7 @@ const Home = () => {
           as="h1"
           overlay
         >
-          NU ART FILM CLUB
+          NUART FILM SOCIETY
         </PageTitle>
         {/* Desktop-only quick navigation under the title */}
         {!isMobile && (
@@ -211,7 +211,7 @@ const Home = () => {
             <span>
               Website design and development by Henry Sundlie and Clive Miller.
             </span>
-            <span>© {currentYear} NU ART Film Club</span>
+            <span>© {currentYear} Nuart Film Society</span>
           </FooterFinePrint>
         </HomeFooter>
       </ContentSection>

@@ -1,6 +1,6 @@
 {
-  "name": "nuart-film-club",
-  "description": "NU ART Film Club website",
+  "name": "nuart-film-society",
+  "description": "Nuart Film Society website",
   "private": true,
   "version": "0.0.0",
   "type": "module",

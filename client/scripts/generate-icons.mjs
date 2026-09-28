@@ -11,9 +11,9 @@ async function run() {
   try {
     const configuration = {
       path: '/',
-      appName: 'NU ART Film Club',
+      appName: 'Nuart Film Society',
       appShortName: 'Nuart',
-      appDescription: 'NU ART Film Club website',
+      appDescription: 'Nuart Film Society website',
       developerName: null,
       developerURL: null,
       dir: 'auto',
