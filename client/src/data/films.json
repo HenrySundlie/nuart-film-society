@@ -10,7 +10,6 @@
     "img": "/images/M-and-C-thumbnail.jpg",
     "runDates": ["2025-09-12", "2025-09-13"],
     "runTime": "7 PM",
-    "ticketLink": "https://nuart-master-and-commander.eventbrite.com#tickets",
     "article": "film-1"
   },
   {
@@ -23,8 +22,7 @@
     "duration": 114,
     "img": "/images/WM-still-2.jpg",
     "runDates": ["2025-09-26", "2025-09-27"],
-    "runTime": "7PM",
-    "ticketLink": "https://www.zeffy.com/en-US/ticketing/the-secret-life-of-walter-mitty-screening-the-nuart-theatre"
+    "runTime": "7PM"
   },
   {
     "id": 3,
@@ -36,8 +34,7 @@
     "duration": 90,
     "img": "/images/QP-still-2.jpg",
     "runDates": ["2025-10-03", "2025-10-04"],
-    "runTime": "7PM",
-    "ticketLink": "https://www.zeffy.com/en-US/ticketing/a-quiet-place-screening-the-nuart-theatre"
+    "runTime": "7PM"
 },
 {
     "id": 4,
@@ -49,8 +46,7 @@
     "duration": 107,
     "img": "/images/SS-thumbnail.jpg",
     "runDates": ["2025-10-17", "2025-10-18"],
-    "runTime": "7PM",
-    "ticketLink": "https://www.zeffy.com/en-US/ticketing/the-sixth-sense-screening-the-nuart-theatre"
+    "runTime": "7PM"
 },
 {
   "id": 5,
@@ -62,8 +58,7 @@
   "duration": 102,
   "img": "/images/better-babette-thumbnail.jpg",
   "runDates": ["2025-11-14", "2025-11-15"],
-  "runTime": "7PM",
-  "ticketLink": "https://www.zeffy.com/en-US/ticketing/babettes-feast-screening-the-nuart-theatre"
+  "runTime": "7PM"
 },
 {
     "id": 6,
@@ -75,8 +70,7 @@
     "duration": 120,
     "img": "/images/WC-thumbnail.jpg",
     "runDates": ["2025-12-05", "2025-12-06"],
-    "runTime": "7PM",
-    "ticketLink": "https://www.zeffy.com/en-US/ticketing/white-christmas-screening-the-nuart-theatre"
+    "runTime": "7PM"
 },
   {
     "id": 7,
@@ -88,8 +82,7 @@
     "duration": 115,
     "img": "/images/hoosiers-thumbnail.jpg",
     "runDates": ["2026-01-23", "2026-01-24"],
-    "runTime": "7PM",
-    "ticketLink": "https://www.zeffy.com/en-US/ticketing/hoosiers-screening-the-nuart-theatre"
+    "runTime": "7PM"
   },
 {
   "id": 8,
@@ -101,8 +94,7 @@
   "duration": 101,
   "img": "/images/groundhog-still-1.jpg",
   "runDates": ["2026-02-06", "2026-02-07"],
-  "runTime": "7PM",
-  "ticketLink": "https://www.zeffy.com/en-US/ticketing/groundhog-day-screening-the-nuart-theatre"
+  "runTime": "7PM"
 },
   {
   "id": 9,
@@ -114,8 +106,7 @@
   "duration": 110,
   "img": "/images/true-grit-still-1.jpg",
   "runDates": ["2026-03-06", "2026-03-07"],
-  "runTime": "7PM",
-  "ticketLink": "https://www.zeffy.com/en-US/ticketing/true-grit-screening-the-nuart-theatre"
+  "runTime": "7PM"
 },
   {
   "id": 10,
@@ -127,8 +118,7 @@
   "duration": 174,
   "img": "/images/hidden-life-still-1.jpg",
   "runDates": ["2026-04-02"],
-  "runTime": "7PM",
-  "ticketLink": "https://www.zeffy.com/en-US/ticketing/a-hidden-life-screening-the-nuart-theatre"
+  "runTime": "7PM"
 },
   {
   "id": 11,
@@ -140,8 +130,7 @@
   "duration": 125,
   "img": "/images/chariots-of-fire-still-1.jpg",
   "runDates": ["2026-04-24"],
-  "runTime": "7PM",
-  "ticketLink": "https://www.zeffy.com/en-US/ticketing/chariots-of-fire-screening-the-nuart-theatre"
+  "runTime": "7PM"
 },
   {
   "id": 12,
@@ -153,7 +142,6 @@
   "duration": 107,
   "img": "/images/o-brother-thumbnail.jpeg",
   "runDates": ["2026-08-28", "2026-09-29"],
-  "runTime": "7PM",
-  "ticketLink": ""
+  "runTime": "7PM"
 }
 ]

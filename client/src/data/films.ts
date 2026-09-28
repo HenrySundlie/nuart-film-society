@@ -11,7 +11,6 @@ export interface Film {
   img: string;
   runDates: string[]; // ISO dates (YYYY-MM-DD).
   runTime: string;
-  ticketLink?: string;
   article?: string; // Optional Markdown slug in content/films/.
 }
 

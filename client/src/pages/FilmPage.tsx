@@ -13,7 +13,6 @@ import {
   FilmArticle,
   BackLink,
 } from '../styles/FilmPage.styles';
-import { LinkButton } from '../components/LinkButton';
 
 export default function FilmPage() {
   const { id } = useParams<{ id: string }>();
@@ -43,14 +42,6 @@ export default function FilmPage() {
           <InfoItem>
             <Label>Duration:</Label> {film.duration} minutes
           </InfoItem>
-          <LinkButton
-            to={film.ticketLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-          >
-            Buy Tickets
-          </LinkButton>
         </InfoSection>
 
         <Description>{film.description}</Description>

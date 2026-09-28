@@ -11,7 +11,6 @@ import {
   FilmNote,
   SectionHeading,
 } from '../styles/FilmMenu.styles';
-import { Button } from '../styles/Button.styles';
 import { useAutoFitText } from '../hooks/useAutoFitText';
 
 // =============================================================================
@@ -85,14 +84,7 @@ export default function FilmMenu() {
     };
   }, []);
 
-  const handleTicketClick = (e: React.MouseEvent, url: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
   const renderUpcomingFilmCard = (film: Film) => {
-    const ticketUrl = film.ticketLink?.trim();
     return (
       <FilmCard to={`/film/${film.id}`} key={film.id}>
         <FilmImage src={film.img} alt={film.title} loading="lazy" />
@@ -104,27 +96,17 @@ export default function FilmMenu() {
           {film.title && film.title.toLowerCase().includes('babette') && (
             <div className="details">
               <FilmNote>
-                Blinis Demidoff & Babette’s Feast: Only 50 seats available
-                (balcony seating)! An unforgettable evening of
-                flavor, film, and French elegance. General admission tickets
-                available per usual.
+                Blinis Demidoff & Babette’s Feast: An unforgettable evening of
+                flavor, film, and French elegance.
               </FilmNote>
             </div>
-          )}
-          {ticketUrl && (
-            <Button
-              className="ticket-btn"
-              onClick={(e) => handleTicketClick(e, ticketUrl)}
-            >
-              Buy Tickets
-            </Button>
           )}
         </FilmInfo>
       </FilmCard>
     );
   };
 
-  // Previous films: only show title (no dates, runtime, tickets)
+  // Previous films: only show title
   const renderPreviousFilmCard = (film: Film) => (
     <FilmCard to={`/film/${film.id}`} key={film.id} className="compact">
       <FilmImage src={film.img} alt={film.title} loading="lazy" />

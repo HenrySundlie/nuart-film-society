@@ -13,7 +13,7 @@ const linkButtonStyles = `
   border-radius: ${theme.radii.md};
   border: 1px solid ${theme.colors.text.light};
   background: ${theme.colors.surfaceDeep};
-  color: #ffffff; /* Match FilmMenu ticket button */
+  color: #ffffff;
   font-family: ${theme.typography.fontFamily};
   transition: background ${theme.transitions.default}, color ${theme.transitions.default}, border-color ${theme.transitions.default}, filter ${theme.transitions.default};
 

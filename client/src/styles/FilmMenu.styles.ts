@@ -84,13 +84,8 @@ export const FilmImage = styled.img`
 export const FilmInfo = styled.div`
   padding: clamp(${theme.spacing.md}, 2vw, ${theme.spacing.lg});
   display: grid;
-  /* Layout: title on its own row; below it two columns (details left, button right) without changing overall card size */
-  grid-template-areas:
-    'title title'
-    'details ticket';
-  /* Two flexible columns so ticket button can stretch */
-  grid-template-columns: 1fr 1fr;
-  /* Make second row fill available height so button can stretch */
+  grid-template-areas: 'title' 'details';
+  grid-template-columns: 1fr;
   grid-auto-rows: auto 1fr;
   align-content: start;
   align-items: start;
@@ -109,65 +104,14 @@ export const FilmInfo = styled.div`
     gap: 1px;
     align-items: flex-start;
   }
-  .ticket-btn {
-    grid-area: ticket;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.65rem 1rem;
-    width: 100%;
-    /* Increased font size for better prominence */
-    font-size: clamp(0.95rem, 0.8rem + 0.5vw, 1.15rem);
-    line-height: 1.15;
-    font-weight: 600;
-    /* Use global brand font */
-    font-family: ${theme.typography.fontFamily};
-    white-space: normal;
-    margin-right: 0;
-    align-self: stretch; /* occupy full height of its grid cell */
-    /* Match MenuIcon styling */
-    background: ${theme.colors.surfaceDeep};
-    border: 1px solid ${theme.colors.text.light};
-    color: #ffffff; /* Force white text for Buy Tickets button */
-    border-radius: ${theme.radii.md}; /* match global card radius for consistency */
-    transition:
-      background ${theme.transitions.default},
-      color ${theme.transitions.default},
-      border-color ${theme.transitions.default},
-      box-shadow ${theme.transitions.default};
-
-    &:hover {
-      background: ${theme.colors.surfaceDeep};
-      filter: brightness(1.1);
-    }
-    &:active {
-      filter: brightness(0.95);
-    }
-    &:focus-visible {
-      outline: var(--ring);
-      outline-offset: 3px;
-    }
-
-    /* Desktop-only: slightly lighter charcoal background for better prominence */
-    ${theme.breakpoints.desktop} {
-      background: #141414; /* between surfaceDeep (#0B0B0B) and surface (#282828) */
-      &:hover {
-        background: #181818;
-      }
-      &:active {
-        background: #101010;
-      }
-    }
-  }
-
   /* Ensure long titles don't push layout oddly */
   .film-title-row > * {
     margin-bottom: 2px;
   }
 
-  /* Mobile: revert to previous vertical flow with full-width ticket button at bottom */
+  /* Mobile: center the title and details */
   ${theme.breakpoints.mobile} {
-    grid-template-areas: 'title' 'details' 'ticket';
+    grid-template-areas: 'title' 'details';
     grid-template-columns: 1fr;
     align-content: center;
     align-items: center;
@@ -179,14 +123,6 @@ export const FilmInfo = styled.div`
     }
     .details {
       align-items: center;
-    }
-    .ticket-btn {
-      width: 100%;
-      aspect-ratio: auto; /* allow natural height */
-      padding: 0.7rem 1rem; /* revert to normal button padding */
-      /* Keep it slightly larger on mobile too */
-      font-size: clamp(0.98rem, 0.92rem + 0.6vw, 1.2rem);
-      margin-right: 0; /* reset desktop margin */
     }
   }
 
