@@ -8,8 +8,6 @@ import {
   FilmImage,
   FilmInfo,
   FilmTitle,
-  FilmDate,
-  FilmTime,
   FilmNote,
   SectionHeading,
 } from '../styles/FilmMenu.styles';
@@ -87,21 +85,6 @@ export default function FilmMenu() {
     };
   }, []);
 
-  // Memoized helpers for card rendering
-  const buildDatesLabel = (film: Film) => {
-    if (!film.runDates?.length) return 'TBA';
-    const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
-    return film.runDates
-      .slice()
-      .sort((a, b) => (toDate(a)?.getTime() ?? 0) - (toDate(b)?.getTime() ?? 0))
-      .map((d) => {
-        const dateObj = toDate(d);
-        return dateObj ? dateObj.toLocaleDateString(undefined, opts) : '';
-      })
-      .filter(Boolean)
-      .join(' · ');
-  };
-
   const handleTicketClick = (e: React.MouseEvent, url: string) => {
     e.preventDefault();
     e.stopPropagation();
@@ -117,19 +100,17 @@ export default function FilmMenu() {
           <div className="film-title-row">
             <AutoFitTitle text={film.title} />
           </div>
-          <div className="details">
-            <FilmDate>{buildDatesLabel(film)}</FilmDate>
-            <FilmTime>{film.runTime}</FilmTime>
-            {/* Short descriptive paragraph only for Babette's Feast (case-insensitive match) */}
-            {film.title && film.title.toLowerCase().includes('babette') && (
+          {/* Short descriptive paragraph only for Babette's Feast (case-insensitive match) */}
+          {film.title && film.title.toLowerCase().includes('babette') && (
+            <div className="details">
               <FilmNote>
                 Blinis Demidoff & Babette’s Feast: Only 50 seats available
-                (balcony club) Friday night only! An unforgettable evening of
+                (balcony club)! An unforgettable evening of
                 flavor, film, and French elegance. General admission tickets
                 available per usual.
               </FilmNote>
-            )}
-          </div>
+            </div>
+          )}
           {ticketUrl && (
             <Button
               className="ticket-btn"

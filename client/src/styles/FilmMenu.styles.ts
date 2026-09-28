@@ -242,7 +242,7 @@ export const SectionHeading = styled.h2`
 `;
 
 export const FilmNote = styled.p`
-  margin: 0.45rem 0 0; /* small gap below time */
+  margin: 0.45rem 0 0;
   color: ${theme.colors.text.secondary ?? 'rgba(255,255,255,0.78)'};
   font-size: clamp(0.85rem, 0.75rem + 0.6vw, 1rem);
   line-height: 1.35;
@@ -263,6 +263,4 @@ export {
   Title,
   Grid as FilmGrid,
   CardTitle as FilmTitle,
-  DateLabel as FilmDate,
-  DateLabel as FilmTime,
 } from './Catalog.styles';
