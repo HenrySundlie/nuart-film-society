@@ -127,7 +127,7 @@ const MobileActionCard: React.FC = () => {
               </IconContainer>
             </Link>
             <TextContent position="right">
-              Explore upcoming films
+              Explore films
             </TextContent>
           </>
         ) : (
