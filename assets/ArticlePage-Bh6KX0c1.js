@@ -1,4 +1,4 @@
-import{t,a as e,j as n,M as p,C as c,b as l}from"./index-BoGJtXfO.js";import{a as m}from"./articles-DyenHPzt.js";import{B as h,u as f,I as s,L as d}from"./Detail.styles-fCSYoqHA.js";import{a}from"./emotion-DNMUf1kK.js";import{f as u}from"./react-lBbUjYft.js";const b=a(h,{target:"e1vh5ft64"})("margin-bottom:",t.spacing.lg,";"),x=a("h1",{target:"e1vh5ft63"})("margin:clamp(",t.spacing.md,", 2vw, ",t.spacing.lg,") 0 clamp(",t.spacing.md,", 2vw, ",t.spacing.lg,`);font-size:clamp(
+import{t,a as e,j as n,M as p,C as c,b as l}from"./index-DiHDLDB9.js";import{a as m}from"./articles-DyenHPzt.js";import{B as h,u as f,I as s,L as d}from"./Detail.styles-C9FM4s9a.js";import{a}from"./emotion-DNMUf1kK.js";import{f as u}from"./react-lBbUjYft.js";const b=a(h,{target:"e1vh5ft64"})("margin-bottom:",t.spacing.lg,";"),x=a("h1",{target:"e1vh5ft63"})("margin:clamp(",t.spacing.md,", 2vw, ",t.spacing.lg,") 0 clamp(",t.spacing.md,", 2vw, ",t.spacing.lg,`);font-size:clamp(
     `,t.typography.h1.mobile.fontSize,`,
     4vw,
     `,t.typography.h1.fontSize,`
