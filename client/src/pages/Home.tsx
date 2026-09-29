@@ -4,6 +4,7 @@ import {
   CopyEmailButton,
   CopyToast,
   HeaderImageContainer,
+  TopFade,
   PageTitle,
   ContentSection,
   ContentText,
@@ -31,7 +32,6 @@ const Home = () => {
   const [isMobile, setIsMobile] = useState(
     () => window.matchMedia(MOBILE_QUERY).matches
   );
-  const isMobileRef = useRef(isMobile);
   const currentYear = new Date().getFullYear();
   const [copied, setCopied] = useState(false);
   const copyTimeoutRef = useRef<number | undefined>(undefined);
@@ -68,44 +68,27 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // Detect mobile viewport and keep updated
     const mql = window.matchMedia(MOBILE_QUERY);
-    const updateIsMobile = () => {
-      isMobileRef.current = mql.matches;
-      setIsMobile(mql.matches);
-      // If we switch to desktop, hide the logo
-      if (!isMobileRef.current) {
-        setShowFloatingLogo(false);
-      }
-    };
+    const updateIsMobile = () => setIsMobile(mql.matches);
     updateIsMobile();
-    mql.addEventListener?.('change', updateIsMobile);
+    mql.addEventListener('change', updateIsMobile);
+    return () => mql.removeEventListener('change', updateIsMobile);
+  }, []);
 
-    const thresholdPx = 200;
-    const hysteresis = 8; // prevent flicker at the boundary
-    const onScroll = () => {
-      if (!isMobileRef.current) return;
-      const title = titleRef.current;
-      if (!title) return;
-      const rect = title.getBoundingClientRect();
-      // Show logo when title has moved up by threshold
-      const shouldShow = rect.top < -thresholdPx || rect.bottom <= 0;
-      // Simple hysteresis: if currently visible, keep until we pass back below threshold - hysteresis
-      setShowFloatingLogo(
-        shouldShow
-          ? true
-          : rect.top < -(thresholdPx - hysteresis)
-            ? true
-            : false
-      );
-    };
+  useEffect(() => {
+    const title = titleRef.current;
+    if (!isMobile || !title) return;
 
-    // Run once to initialize, then on scroll
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    // Wait until the entire title has left the viewport, including after resizing.
+    const observer = new IntersectionObserver(([entry]) => {
+      setShowFloatingLogo(!entry.isIntersecting);
+    });
+    observer.observe(title);
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  useEffect(() => {
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      mql.removeEventListener?.('change', updateIsMobile);
       if (copyTimeoutRef.current) {
         window.clearTimeout(copyTimeoutRef.current);
       }
@@ -114,17 +97,10 @@ const Home = () => {
 
   return (
     <>
-      <HeaderImageContainer darkFade={showFloatingLogo}>
-        <FloatingLogo visible={showFloatingLogo}>NUART</FloatingLogo>
-        <PageTitle
-          ref={titleRef}
-          fontWeight={400}
-          letterSpacing="0.5rem"
-          as="h1"
-          overlay
-        >
-          NUART FILM SOCIETY
-        </PageTitle>
+      <TopFade darkFade={isMobile && showFloatingLogo} aria-hidden="true" />
+      <HeaderImageContainer>
+        <FloatingLogo visible={isMobile && showFloatingLogo}>NUART</FloatingLogo>
+        <PageTitle ref={titleRef}>NUART FILM SOCIETY</PageTitle>
         {/* Desktop-only quick navigation under the title */}
         {!isMobile && (
           <TitleActions aria-label="Primary navigation">
