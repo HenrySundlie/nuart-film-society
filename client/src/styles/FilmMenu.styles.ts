@@ -33,9 +33,9 @@ export const FilmCard = styled(Link)`
     outline-offset: 3px;
   }
 
-  /* Compact variant for Previous films (title only) */
+  /* Compact variant for title-only film cards */
   &.compact {
-    /* Even smaller minimum height for previous films */
+    /* Smaller minimum height for title-only cards */
     min-height: clamp(85px, 11vw, 118px);
     /* Slightly narrower image column so text area doesn't force extra height */
     grid-template-columns: clamp(100px, 25%, 170px) 1fr;

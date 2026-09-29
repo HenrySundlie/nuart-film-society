@@ -45,6 +45,8 @@ const AppContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
 `;
 
 export default function App() {

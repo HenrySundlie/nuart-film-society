@@ -13,10 +13,9 @@ const HEADER_IMAGE_HEIGHT = '50vh';
 // ============================================================================
 
 /**
- * Container for the header image section that spans full viewport width
- * and positions the MobileActionCard at its bottom edge
+ * Full-bleed hero; text and controls respect the safe area separately.
  */
-export const HeaderImageContainer = styled.div<{ darkFade?: boolean }>`
+export const HeaderImageContainer = styled.div`
   --header-image-height: ${HEADER_IMAGE_HEIGHT};
   position: relative;
   width: 100vw;
@@ -25,30 +24,13 @@ export const HeaderImageContainer = styled.div<{ darkFade?: boolean }>`
   /* Full-width positioning to break out of container constraints */
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
-  /* Remove negative margin to prevent title from being pushed off-screen */
-  margin-top: 0;
+  /* Let the image fill the top inset reserved by AppContainer. */
+  margin-top: calc(-1 * env(safe-area-inset-top, 0px));
 
   /* Center image content */
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Top fade overlay for title legibility: fixed so it remains on scroll */
-  &::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 240px;
-    background: ${({ darkFade }) =>
-      darkFade
-        ? 'linear-gradient(to bottom, rgba(0, 0, 0, 0.95), transparent)'
-        : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent)'};
-    /* Place fade above everything except the overlaid title */
-    z-index: 1001;
-    pointer-events: none;
-  }
 
   /* Bottom fade overlay to ease the image into the background (desktop only) */
   &::after {
@@ -77,13 +59,6 @@ export const HeaderImageContainer = styled.div<{ darkFade?: boolean }>`
       inset 0 60px 120px -60px rgba(0, 0, 0, 0.6);
   }
 
-  /* Mobile-specific adjustments */
-  ${theme.breakpoints.mobile} {
-    height: var(--header-image-height);
-    /* Ensure proper positioning context for MobileActionCard */
-    position: relative;
-  }
-
   /* Desktop-specific adjustments */
   ${theme.breakpoints.desktop} {
     height: 72vh; /* image goes further down on desktop */
@@ -93,67 +68,63 @@ export const HeaderImageContainer = styled.div<{ darkFade?: boolean }>`
   }
 `;
 
+export const TopFade = styled.div<{ darkFade: boolean }>`
+  --fade-color: ${({ darkFade }) =>
+    darkFade ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.85)'};
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 0px);
+  /* A real fixed element with a background also lets Safari tint its top UI. */
+  background-color: var(--fade-color);
+  z-index: 1001;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 240px;
+    background: linear-gradient(to bottom, var(--fade-color), transparent);
+    pointer-events: none;
+  }
+`;
+
 // ============================================================================
 // Typography Components
 // ============================================================================
 
-export const PageTitle = styled.h1<{
-  fontWeight?: number;
-  letterSpacing?: string;
-  overlay?: boolean;
-}>`
-  --fg1: ${theme.colors.text.primary};
-  --fg2: ${theme.colors.text.secondary};
-
-  margin: 0 0 clamp(${theme.spacing.lg}, 3vw, ${theme.spacing.xl});
+export const PageTitle = styled.h1`
+  position: absolute;
+  top: calc(${theme.spacing.lg} + env(safe-area-inset-top, 0px));
+  left: 0;
+  right: 0;
+  width: min(100%, 96vw);
+  margin: 0 auto;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
   text-align: center;
   line-height: 1.1;
-  letter-spacing: ${({ letterSpacing }) => letterSpacing || '0.01em'};
-  font-weight: ${({ fontWeight }) =>
-    fontWeight || theme.typography.h1.fontWeight};
+  letter-spacing: 0.5rem;
+  font-weight: 400;
   font-size: clamp(
     ${theme.typography.h1.mobile.fontSize},
     3.6vw,
     ${theme.typography.h1.fontSize}
   );
 
-  color: transparent;
-  background: linear-gradient(180deg, var(--fg1), var(--fg2));
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
   text-wrap: balance;
-  z-index: 3;
+  z-index: 1002; /* Above the fade overlay */
+  pointer-events: none;
 
   /* Desktop-only: make the Home title a little bigger */
   ${theme.breakpoints.desktop} {
     font-size: clamp(${theme.typography.h1.mobile.fontSize}, 4vw, 3.25rem);
-  }
-
-  ${({ overlay }) =>
-    overlay
-      ? `
-    position: absolute;
-    top: ${theme.spacing.lg};
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(100%, 96vw);
-    margin-bottom: 0;
-  color: #fff;
-  background: none;
-  -webkit-text-fill-color: #fff; /* Ensure solid white on Safari */
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  /* Remove stroke and heavy shadows for the overlaid white title so it appears solid */
-  -webkit-text-stroke: 0;
-  text-shadow: none;
-  z-index: 1002; /* Above the fade overlay */
-    pointer-events: none;
-    @media (max-width: 768px) { top: ${theme.spacing.lg}; }
-  `
-      : ''}
-
-  ${theme.breakpoints.mobile} {
-    margin-bottom: ${theme.spacing.lg};
   }
 `;
 
@@ -165,8 +136,11 @@ export const FloatingLogo = styled.div<{ visible?: boolean }>`
   position: fixed;
   /* Position so the logo vertically centers with the MenuIcon (44px height).
     We offset by half the difference between the icon height and the responsive font-size. */
-  top: calc(${theme.spacing.md} + (44px - clamp(22px, 10vw, 30px)) / 2);
-  left: ${theme.spacing.md};
+  top: calc(
+    env(safe-area-inset-top, 0px) + ${theme.spacing.md} +
+      (44px - clamp(22px, 10vw, 30px)) / 2
+  );
+  left: calc(${theme.spacing.md} + env(safe-area-inset-left, 0px));
   z-index: 1100; /* Above fades and content */
   color: #fff;
   font-family: ${theme.typography.fontFamily};
@@ -196,7 +170,7 @@ export const TitleActions = styled.nav`
   position: absolute;
   /* Position directly below the title, following the title's centering */
   top: calc(
-    ${theme.spacing.lg} +
+    env(safe-area-inset-top, 0px) + ${theme.spacing.lg} +
       clamp(${theme.typography.h1.mobile.fontSize}, 4vw, 3.25rem) + 1.5rem
   );
   left: 50%;

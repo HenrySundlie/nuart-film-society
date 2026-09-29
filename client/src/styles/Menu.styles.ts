@@ -4,8 +4,8 @@ import { theme } from '../theme';
 
 export const MenuIcon = styled.div<{ visible?: boolean }>`
   position: fixed;
-  top: ${theme.spacing.md};
-  right: ${theme.spacing.md};
+  top: calc(${theme.spacing.md} + env(safe-area-inset-top, 0px));
+  right: calc(${theme.spacing.md} + env(safe-area-inset-right, 0px));
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -32,8 +32,8 @@ export const MenuIcon = styled.div<{ visible?: boolean }>`
 
 export const MenuCard = styled.div<{ isOpen: boolean; visible?: boolean }>`
   position: fixed;
-  top: ${theme.spacing.md};
-  right: ${theme.spacing.md};
+  top: calc(${theme.spacing.md} + env(safe-area-inset-top, 0px));
+  right: calc(${theme.spacing.md} + env(safe-area-inset-right, 0px));
   /*
     Size to make MenuCard square and fit 4 items.
     Ideally, height would be based on content and width would match height automatically,
