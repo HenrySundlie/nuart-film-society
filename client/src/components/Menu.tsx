@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MenuIcon, MenuCard, NavLink } from '../styles/Menu.styles';
+import { MenuIcon, MenuCard, MenuLinks, NavLink } from '../styles/Menu.styles';
 
 type MenuProps = {
   /** Optional override to control the visibility of the icon externally (e.g., Home scroll). */
@@ -62,15 +62,17 @@ export default function Menu({ visibleOverride }: MenuProps) {
         <div />
       </MenuIcon>
       <MenuCard isOpen={isOpen} ref={menuCardRef} visible={shouldShowIcon}>
-        <NavLink to="/" onClick={closeMenu}>
-          Home
-        </NavLink>
-        <NavLink to="/films" onClick={closeMenu}>
-          Films
-        </NavLink>
-        <NavLink to="/articles" onClick={closeMenu}>
-          Articles & Reviews
-        </NavLink>
+        <MenuLinks>
+          <NavLink to="/" onClick={closeMenu}>
+            Home
+          </NavLink>
+          <NavLink to="/films" onClick={closeMenu}>
+            Films
+          </NavLink>
+          <NavLink to="/articles" onClick={closeMenu}>
+            Articles & Reviews
+          </NavLink>
+        </MenuLinks>
       </MenuCard>
     </>
   );
