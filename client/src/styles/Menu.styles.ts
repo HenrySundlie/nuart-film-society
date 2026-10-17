@@ -34,24 +34,19 @@ export const MenuCard = styled.div<{ isOpen: boolean; visible?: boolean }>`
   position: fixed;
   top: calc(${theme.spacing.md} + env(safe-area-inset-top, 0px));
   right: calc(${theme.spacing.md} + env(safe-area-inset-right, 0px));
-  /*
-    Size to make MenuCard square and fit 4 items.
-    Ideally, height would be based on content and width would match height automatically,
-    but CSS cannot set width = height when height is dynamic. JS workaround needed for auto.
-  */
+  /* Fit the three navigation links without the former calendar row. */
   width: ${({ isOpen }) => (isOpen ? '180px' : '44px')};
-  height: ${({ isOpen }) => (isOpen ? '200px' : '44px')};
+  height: ${({ isOpen }) => (isOpen ? '150px' : '44px')};
   background-color: ${theme.colors.surfaceDeep};
   border: 1px solid ${theme.colors.text.light};
-  border-radius: ${({ isOpen }) => (isOpen ? '20px' : '50%')};
+  border-radius: ${({ isOpen }) => (isOpen ? '20px' : '22px')};
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: all 0.4s ease-in-out;
+  transition:
+    width 0.4s ease-in-out,
+    height 0.4s ease-in-out,
+    border-radius 0.4s ease-in-out,
+    opacity 0.4s ease-in-out;
   z-index: 1001;
-  padding: ${({ isOpen }) => (isOpen ? `${theme.spacing.md}` : '0')};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: ${theme.spacing.md};
   overflow: hidden;
   transform-origin: top right;
   opacity: ${({ isOpen, visible }) => (isOpen ? 1 : visible ? 1 : 0)};
@@ -63,7 +58,23 @@ export const MenuCard = styled.div<{ isOpen: boolean; visible?: boolean }>`
   }
 `;
 
+export const MenuLinks = styled.div`
+  /* Keep text at its final size so it never reflows during the expansion. */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 178px;
+  height: 148px;
+  padding: ${theme.spacing.md};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: ${theme.spacing.md};
+`;
+
 export const NavLink = styled(Link)`
+  flex-shrink: 0;
+  white-space: nowrap;
   color: ${theme.colors.text.light};
   text-decoration: none;
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
