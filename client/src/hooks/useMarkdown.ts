@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
 const content = import.meta.glob<string>(
-  ['../content/articles/*.md', '../content/films/*.md'],
+  '../content/articles/*.md',
   { query: '?raw', import: 'default' }
 );
 
-export function useMarkdown(category: 'articles' | 'films', slug?: string) {
+export function useMarkdown(category: 'articles', slug?: string) {
   const [markdown, setMarkdown] = useState<string | null>(null);
 
   useEffect(() => {

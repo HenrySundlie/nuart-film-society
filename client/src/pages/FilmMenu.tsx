@@ -38,10 +38,10 @@ export default function FilmMenu() {
   });
   return (
     <Container>
-      <Title ref={pageTitleRef}>Films</Title>
+      <Title ref={pageTitleRef}>Past Films</Title>
       <FilmGrid>
         {sortedFilms.map((film) => (
-          <FilmCard to={`/film/${film.id}`} key={film.id} className="compact">
+          <FilmCard key={film.id} className="compact">
             <FilmImage src={film.img} alt={film.title} loading="lazy" />
             <FilmInfo style={{ gap: '0' }}>
               <AutoFitTitle text={film.title} />

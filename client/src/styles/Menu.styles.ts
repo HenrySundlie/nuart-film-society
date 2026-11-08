@@ -2,12 +2,13 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { theme } from '../theme';
 
-export const MenuIcon = styled.div<{ visible?: boolean }>`
+export const MenuIcon = styled.button<{ visible?: boolean }>`
   position: fixed;
   top: calc(${theme.spacing.md} + env(safe-area-inset-top, 0px));
   right: calc(${theme.spacing.md} + env(safe-area-inset-right, 0px));
   width: 44px;
   height: 44px;
+  padding: 0;
   border-radius: 50%;
   background: ${theme.colors.surfaceDeep};
   border: 1px solid ${theme.colors.text.light};
@@ -34,7 +35,7 @@ export const MenuCard = styled.div<{ isOpen: boolean; visible?: boolean }>`
   position: fixed;
   top: calc(${theme.spacing.md} + env(safe-area-inset-top, 0px));
   right: calc(${theme.spacing.md} + env(safe-area-inset-right, 0px));
-  /* Fit the three navigation links without the former calendar row. */
+  /* Fit Home, Past Films, and Articles & Reviews. */
   width: ${({ isOpen }) => (isOpen ? '180px' : '44px')};
   height: ${({ isOpen }) => (isOpen ? '150px' : '44px')};
   background-color: ${theme.colors.surfaceDeep};

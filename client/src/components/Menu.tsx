@@ -27,6 +27,9 @@ export default function Menu({ visibleOverride }: MenuProps) {
   // Close menu when clicking outside
   useEffect(() => {
     if (!isOpen) return;
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') closeMenu();
+    }
     function handleClickOutside(event: MouseEvent) {
       if (
         menuCardRef.current &&
@@ -36,8 +39,10 @@ export default function Menu({ visibleOverride }: MenuProps) {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen]);
 
@@ -53,21 +58,24 @@ export default function Menu({ visibleOverride }: MenuProps) {
   return (
     <>
       <MenuIcon
+        type="button"
         onClick={openMenu}
         visible={shouldShowIcon}
         aria-label="Open menu"
+        aria-expanded={isOpen}
+        aria-controls="primary-menu-links"
       >
         <div />
         <div />
         <div />
       </MenuIcon>
       <MenuCard isOpen={isOpen} ref={menuCardRef} visible={shouldShowIcon}>
-        <MenuLinks>
+        <MenuLinks id="primary-menu-links" inert={!isOpen}>
           <NavLink to="/" onClick={closeMenu}>
             Home
           </NavLink>
           <NavLink to="/films" onClick={closeMenu}>
-            Films
+            Past Films
           </NavLink>
           <NavLink to="/articles" onClick={closeMenu}>
             Articles & Reviews

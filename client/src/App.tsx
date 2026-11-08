@@ -3,11 +3,11 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Home from './pages/Home';
 const FilmMenu = lazy(() => import('./pages/FilmMenu'));
-const FilmPage = lazy(() => import('./pages/FilmPage'));
 const ArticleMenu = lazy(() => import('./pages/ArticleMenu'));
 const ArticlePage = lazy(() => import('./pages/ArticlePage'));
 import Menu from './components/Menu';
@@ -59,9 +59,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/films" element={<FilmMenu />} />
-            <Route path="/film/:id" element={<FilmPage />} />
             <Route path="/articles" element={<ArticleMenu />} />
             <Route path="/article/:id" element={<ArticlePage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </AppContainer>
@@ -73,7 +73,7 @@ function MenuVisibilityController() {
   const location = useLocation();
   const isHome = location.pathname.replace(/\/?$/, '/') === '/';
 
-  // Never show global Menu on the Home route. Home page manages its own mobile menu.
+  // The homepage has its own visible navigation in the sidebar.
   if (isHome) return null;
   return <Menu />;
 }

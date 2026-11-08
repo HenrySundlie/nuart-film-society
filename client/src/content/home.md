@@ -6,7 +6,7 @@ Founded in 2025, the Nuart Film Society seeks to revive the Nuart Theatre’s hi
 
 **Weekly Screenings**: community hosted films, whether contemporary or timeless classics, Christian or secular.
 
-**Discussion Groups**: Post-screening conversations led by scholars and enthusiasts.
+**Movie Analysis**: Pre-screening comments given by scholars and enthusiasts.
 
 ## The Venue
 
