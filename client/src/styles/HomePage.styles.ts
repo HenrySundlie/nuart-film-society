@@ -59,13 +59,74 @@ export const Hero = styled.header`
   }
 
   ${theme.breakpoints.mobile} {
-    height: clamp(250px, 60vw, 420px);
+    height: 50vh;
     > img { height: 100%; }
-    &::after {
-      top: auto;
-      bottom: 0;
-      height: 42%;
+    &::before, &::after { display: none; }
+    box-shadow:
+      inset 0 -80px 120px -60px ${theme.colors.background},
+      inset 0 60px 120px -60px rgba(0, 0, 0, 0.6);
+
+    ${theme.breakpoints.desktop} {
+      height: 72vh;
+      &::after { display: block; }
     }
+  }
+`;
+
+export const TopFade = styled.div<{ darkFade: boolean }>`
+  display: none;
+  ${theme.breakpoints.mobile} { display: block; }
+  --fade-color: ${({ darkFade }) =>
+    darkFade ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.85)'};
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 0px);
+  /* A real fixed element with a background also lets Safari tint its top UI. */
+  background-color: var(--fade-color);
+  z-index: 1001;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 240px;
+    background: linear-gradient(to bottom, var(--fade-color), transparent);
+    pointer-events: none;
+  }
+`;
+
+export const FloatingLogo = styled.div<{ visible?: boolean }>`
+  position: fixed;
+  /* Position so the logo vertically centers with the MenuIcon (44px height).
+    We offset by half the difference between the icon height and the responsive font-size. */
+  top: calc(
+    env(safe-area-inset-top, 0px) + ${theme.spacing.md} +
+      (44px - clamp(22px, 10vw, 30px)) / 2
+  );
+  left: calc(${theme.spacing.md} + env(safe-area-inset-left, 0px));
+  z-index: 1100; /* Above fades and content */
+  color: #fff;
+  font-family: ${theme.typography.fontFamily};
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  font-size: clamp(22px, 10vw, 30px);
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity ${theme.transitions.default};
+
+  ${theme.breakpoints.mobile} {
+    opacity: ${({ visible }) => (visible ? 1 : 0)};
+  }
+
+  ${theme.breakpoints.desktop} {
+    display: none;
   }
 `;
 
@@ -86,8 +147,20 @@ export const PageTitle = styled.h1`
   text-wrap: balance;
 
   ${theme.breakpoints.mobile} {
-    font-size: clamp(28px, 6vw, 42px);
-    letter-spacing: 0.13em;
+    position: absolute;
+    top: calc(${theme.spacing.lg} + env(safe-area-inset-top, 0px));
+    left: 0;
+    right: 0;
+    width: min(100%, 96vw);
+    margin: 0 auto;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    font-size: clamp(${theme.typography.h1.mobile.fontSize}, 3.6vw, ${theme.typography.h1.fontSize});
+    line-height: 1.1;
+    letter-spacing: 0.5rem;
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    z-index: 1002;
   }
 `;
 
