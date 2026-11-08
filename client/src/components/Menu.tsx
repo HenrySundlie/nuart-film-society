@@ -74,6 +74,9 @@ export default function Menu({ visibleOverride }: MenuProps) {
           <NavLink to="/" onClick={closeMenu}>
             Home
           </NavLink>
+          <NavLink to="/films" onClick={closeMenu}>
+            Past Films
+          </NavLink>
           <NavLink to="/articles" onClick={closeMenu}>
             Articles & Reviews
           </NavLink>

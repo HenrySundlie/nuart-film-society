@@ -2,8 +2,8 @@
 
 - Static React 19 + TypeScript site in the `client` npm workspace; Vite builds to `client/dist`. No backend.
 - Run `npm ci` at the root. Use `npm run -w client dev`, `npm run -w client lint`, and `npm run -w client build`.
-- Routes: `/`, `/articles`, `/article/:id`. Retired film URLs and unknown routes redirect home. Article detail routes use numeric IDs; list and detail pages are lazy-loaded.
-- Article metadata lives in `client/src/data/articles.json`.
+- Routes: `/`, `/films`, `/articles`, `/article/:id`. Individual film URLs and unknown routes redirect home. Film cards are non-interactive archive entries; only the films listing is restored. Article detail routes use numeric IDs; catalog and article detail pages are lazy-loaded.
+- Article metadata lives in `client/src/data/articles.json`; the film archive lives in `client/src/data/films.json`.
 - Markdown lives in `client/src/content`: `home.md` and `articles/<slug>.md`. Article slugs use `article` or fall back to `article-<id>`; missing Markdown is allowed.
 - Images and browser icons live in `client/public`; content uses absolute `/images/...` URLs. Run `npm run -w client icons` only when changing the icon source, `tab-icon.svg`.
 - Emotion styles live in `client/src/styles`; shared catalog/detail styles and `theme.ts` define the dark palette and Cormorant Garamond typography. Preserve images, spacing, transitions, title fitting, and responsive behavior. Both media queries include 768px; do not change that boundary casually.

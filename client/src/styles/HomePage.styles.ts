@@ -13,16 +13,20 @@ export const HomePage = styled.div`
 
 export const Hero = styled.header`
   position: relative;
-  height: min(42.194175vw, 640px);
+  /* Match master's first heading: 72vh hero, content overlap, and text insets. */
+  height: calc(
+    72vh - clamp(96px, 15vh, 192px) + clamp(8px, 1.2vh, 16px) + 48px
+  );
   margin-top: calc(-1 * env(safe-area-inset-top, 0px));
 
   > img {
     position: absolute;
     top: 0;
     width: 100%;
-    height: min(47.41165vw, 719.14px);
+    height: 72vh;
     object-fit: cover;
     object-position: center;
+    filter: saturate(1.05) contrast(1.02);
     display: block;
   }
 
@@ -43,8 +47,8 @@ export const Hero = styled.header`
   }
 
   &::after {
-    top: min(31.608738vw, 479.45px);
-    height: min(15.802913vw, 239.69px);
+    top: calc(72vh - clamp(160px, 24vh, 300px));
+    height: clamp(160px, 24vh, 300px);
     background: linear-gradient(
       180deg,
       rgba(28, 28, 28, 0) 0%,
@@ -219,7 +223,8 @@ export const CopyToast = styled.span`
   }
 `;
 
-export const ArticlesNavigation = styled.nav`
+export const SidebarNavigation = styled.nav`
+  margin-top: calc(${theme.spacing.sm} - ${theme.spacing.lg});
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.md};
@@ -243,6 +248,7 @@ export const ArticlesNavigation = styled.nav`
 
   ${theme.breakpoints.mobile} {
     grid-column: 1 / -1;
+    margin-top: calc(${theme.spacing.sm} - ${theme.spacing.md});
     padding: 8px 0;
   }
 `;

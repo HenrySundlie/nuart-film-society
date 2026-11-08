@@ -5,7 +5,7 @@ import EmailSignup from '../components/EmailSignup';
 import {
   HomePage, Hero, PageTitle, HomeColumns, Sidebar, SidebarCard,
   SidebarHeading, ContactLinks, CopyEmailButton, CopyToast,
-  ArticlesNavigation, Editorial, FooterFinePrint,
+  SidebarNavigation, Editorial, FooterFinePrint,
 } from '../styles/HomePage.styles';
 import homeMd from '../content/home.md?raw';
 
@@ -72,7 +72,7 @@ export default function Home() {
     <HomePage>
       <Hero>
         <img
-          src="/images/historic-main-street.png"
+          src="/images/Main Street east side_0001 cropped.jpg"
           alt="Historic Main Street in Moscow, Idaho, with the Nuart Theatre marquee"
           loading="eager"
           fetchPriority="high"
@@ -107,13 +107,21 @@ export default function Home() {
             </ContactLinks>
           </SidebarCard>
 
-          <ArticlesNavigation aria-label="Articles">
+          <SidebarNavigation aria-label="Past Films">
+            <Link to="/films">
+              Past Films
+              <img src="/images/external-link.png" width="14" height="14" alt="" />
+            </Link>
+            <p>See our past films.</p>
+          </SidebarNavigation>
+
+          <SidebarNavigation aria-label="Articles">
             <Link to="/articles">
               Articles &amp; Reviews
               <img src="/images/external-link.png" width="14" height="14" alt="" />
             </Link>
             <p>This page is under development -- more coming soon!</p>
-          </ArticlesNavigation>
+          </SidebarNavigation>
         </Sidebar>
 
         <Editorial>

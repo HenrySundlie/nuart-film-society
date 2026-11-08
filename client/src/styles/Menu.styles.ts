@@ -35,9 +35,9 @@ export const MenuCard = styled.div<{ isOpen: boolean; visible?: boolean }>`
   position: fixed;
   top: calc(${theme.spacing.md} + env(safe-area-inset-top, 0px));
   right: calc(${theme.spacing.md} + env(safe-area-inset-right, 0px));
-  /* Fit Home and Articles & Reviews. */
+  /* Fit Home, Past Films, and Articles & Reviews. */
   width: ${({ isOpen }) => (isOpen ? '180px' : '44px')};
-  height: ${({ isOpen }) => (isOpen ? '110px' : '44px')};
+  height: ${({ isOpen }) => (isOpen ? '150px' : '44px')};
   background-color: ${theme.colors.surfaceDeep};
   border: 1px solid ${theme.colors.text.light};
   border-radius: ${({ isOpen }) => (isOpen ? '20px' : '22px')};
@@ -65,7 +65,7 @@ export const MenuLinks = styled.div`
   top: 0;
   right: 0;
   width: 178px;
-  height: 108px;
+  height: 148px;
   padding: ${theme.spacing.md};
   display: flex;
   flex-direction: column;

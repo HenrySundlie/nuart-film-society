@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Home from './pages/Home';
+const FilmMenu = lazy(() => import('./pages/FilmMenu'));
 const ArticleMenu = lazy(() => import('./pages/ArticleMenu'));
 const ArticlePage = lazy(() => import('./pages/ArticlePage'));
 import Menu from './components/Menu';
@@ -57,6 +58,7 @@ export default function App() {
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/films" element={<FilmMenu />} />
             <Route path="/articles" element={<ArticleMenu />} />
             <Route path="/article/:id" element={<ArticlePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
