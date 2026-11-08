@@ -179,12 +179,6 @@ export const ContactLinks = styled.ul`
   padding: 0;
   list-style: none;
   li { white-space: nowrap; }
-  li::before {
-    content: '•  ';
-    white-space: pre;
-    color: ${theme.colors.link};
-    text-decoration: underline;
-  }
   a { color: ${theme.colors.link}; text-decoration: underline; }
   a:hover { color: ${theme.colors.text.primary}; }
 `;
@@ -229,9 +223,11 @@ export const ArticlesNavigation = styled.nav`
     font-size: 17.6px;
     font-weight: 600;
     line-height: 22px;
-    text-decoration: underline;
+    text-decoration: none;
     color: ${theme.colors.text.primary};
   }
+
+  a:hover { text-decoration: underline; }
 
   img { display: block; flex-shrink: 0; }
 
