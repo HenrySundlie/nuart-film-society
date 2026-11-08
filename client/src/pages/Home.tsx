@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Markdown from '../components/Markdown';
+import EmailSignup from '../components/EmailSignup';
 import {
   HomePage, Hero, PageTitle, HomeColumns, Sidebar, SidebarCard,
-  SidebarHeading, EmailField, ContactLinks, CopyEmailButton, CopyToast,
+  SidebarHeading, ContactLinks, CopyEmailButton, CopyToast,
   ArticlesNavigation, Editorial, FooterFinePrint,
 } from '../styles/HomePage.styles';
 import homeMd from '../content/home.md?raw';
@@ -84,15 +85,7 @@ export default function Home() {
           <SidebarCard aria-labelledby="announcements-heading">
             <SidebarHeading id="announcements-heading">Announcements</SidebarHeading>
             <p>Want to stay in the loop? Sign up to notified about each week’s film:</p>
-            {/* The Figma field is a visual preview. Enable it when a mailing-list
-                provider is connected; never imply an address has been saved. */}
-            <EmailField
-              type="email"
-              placeholder="eddiemannix@gmail.com"
-              aria-label="Email address — signup coming soon"
-              title="Email signup coming soon"
-              disabled
-            />
+            <EmailSignup />
           </SidebarCard>
 
           <SidebarCard aria-labelledby="contact-heading" className="contact-card">

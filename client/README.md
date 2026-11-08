@@ -15,3 +15,5 @@ npm run -w client preview
 Film and article metadata lives in `src/data/`; page text lives in [`src/content/`](src/content/README.md). Images are served from `public/images/`. Emotion styles and `src/theme.ts` control the site's appearance.
 
 GitHub Actions builds `client/dist` and deploys it to GitHub Pages. Other static hosts must rewrite client routes such as `/films` to `/index.html`, or serve `public/404.html` to recover the route through session storage.
+
+The homepage email field saves signups in a private Google Sheet through a Google-hosted Apps Script web app. See [`../google-apps-script/README.md`](../google-apps-script/README.md) for the sheet and script links, destination settings, export instructions, and deployment steps.
