@@ -17,6 +17,31 @@ export default function Home() {
 
   useEffect(() => () => clearTimeout(copyTimeout.current), []);
 
+  useEffect(() => {
+    if (!copyMessage) return;
+
+    const dismiss = () => {
+      clearTimeout(copyTimeout.current);
+      setCopyMessage('');
+    };
+    const actions = ['pointerdown', 'click', 'keydown', 'wheel', 'touchmove', 'scroll', 'visibilitychange'] as const;
+
+    // Capture catches nested scrolling and runs before link/button handlers.
+    for (const action of actions) {
+      document.addEventListener(action, dismiss, { capture: true, passive: true });
+    }
+    window.addEventListener('blur', dismiss);
+    window.addEventListener('resize', dismiss);
+
+    return () => {
+      for (const action of actions) {
+        document.removeEventListener(action, dismiss, true);
+      }
+      window.removeEventListener('blur', dismiss);
+      window.removeEventListener('resize', dismiss);
+    };
+  }, [copyMessage]);
+
   const copyEmail = async () => {
     clearTimeout(copyTimeout.current);
     try {
@@ -35,11 +60,11 @@ export default function Home() {
           field.remove();
         }
       }
-      setCopyMessage('Email copied');
+      setCopyMessage('Copied to clipboard');
     } catch {
       setCopyMessage('Unable to copy. Please select the email address.');
     }
-    copyTimeout.current = setTimeout(() => setCopyMessage(''), 3000);
+    copyTimeout.current = setTimeout(() => setCopyMessage(''), 1500);
   };
 
   return (
@@ -84,9 +109,9 @@ export default function Home() {
                 <CopyEmailButton type="button" onClick={copyEmail} aria-label={`Copy email address ${email} to clipboard`}>
                   {email}
                 </CopyEmailButton>
+                <CopyToast role="status" aria-live="polite">{copyMessage}</CopyToast>
               </li>
             </ContactLinks>
-            <CopyToast role="status" aria-live="polite">{copyMessage}</CopyToast>
           </SidebarCard>
 
           <ArticlesNavigation aria-label="Articles">

@@ -35,7 +35,8 @@ export const Hero = styled.header`
   }
 
   &::before {
-    z-index: 1;
+    position: fixed;
+    z-index: 3;
     top: 0;
     height: 240px;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent);
@@ -65,11 +66,13 @@ export const Hero = styled.header`
 `;
 
 export const PageTitle = styled.h1`
-  position: relative;
-  z-index: 2;
+  position: fixed;
+  z-index: 4;
   top: calc(24px + env(safe-area-inset-top, 0px));
-  width: calc(100% - 40px);
-  margin: 0 auto;
+  left: calc(20px + env(safe-area-inset-left, 0px));
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  margin: 0;
+  pointer-events: none;
   color: ${theme.colors.text.primary};
   font-size: clamp(32px, 4.598058vw, 60px);
   line-height: 1.20777;
@@ -178,7 +181,7 @@ export const ContactLinks = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-  li { white-space: nowrap; }
+  li { position: relative; white-space: nowrap; }
   a { color: ${theme.colors.link}; text-decoration: underline; }
   a:hover { color: ${theme.colors.text.primary}; }
 `;
@@ -197,16 +200,23 @@ export const CopyEmailButton = styled.button`
 
 export const CopyToast = styled.span`
   position: absolute;
-  top: calc(100% + 4px);
-  left: 20px;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 3;
   max-width: 260px;
-  border-radius: 4px;
+  width: max-content;
+  white-space: normal;
+  pointer-events: none;
+  border-radius: ${theme.home.cardRadius};
   background: ${theme.colors.surfaceDeep};
   color: ${theme.colors.text.primary};
   font-size: 14px;
   line-height: 1.4;
-  &:not(:empty) { padding: 4px 8px; }
+  &:not(:empty) {
+    padding: 4px 8px;
+    border: 1px solid ${theme.colors.border};
+  }
 `;
 
 export const ArticlesNavigation = styled.nav`
