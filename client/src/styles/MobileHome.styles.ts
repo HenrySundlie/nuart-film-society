@@ -36,10 +36,9 @@ export const ContentSection = styled.main`
     font-size: ${theme.typography.body.mobile?.fontSize ?? '16px'};
   }
 
-  /* Desktop: bring text closer to the image */
+  /* Both queries match at 768px; keep content below the mobile action card. */
   ${theme.breakpoints.desktop} {
-    /* Pull content upwards even further; keep it responsive and bounded */
-    margin-top: clamp(-192px, -15vh, -96px);
+    margin-top: 0;
     /* Keep a little breathing room from the image edge, responsive */
     padding-top: clamp(8px, 1.2vh, 16px);
   }
