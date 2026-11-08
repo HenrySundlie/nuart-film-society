@@ -1,4 +1,8 @@
 export const theme = {
+  home: {
+    cardRadius: '10px',
+    paragraphGap: '18px',
+  },
   colors: {
     secondary: '#BDBDBD',
     accent: '#6366F1', // focus rings, CTAs

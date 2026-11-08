@@ -4,6 +4,8 @@ import Markdown from '../components/Markdown';
 import { useMarkdown } from '../hooks/useMarkdown';
 import {
   ArticleContent,
+  ContentSection,
+  ContentText,
   Title,
   MetaSection,
   MetaItem,
@@ -11,7 +13,6 @@ import {
   Description,
   BackLink,
 } from '../styles/ArticlePage.styles';
-import { ContentSection, ContentText } from '../styles/HomePage.styles';
 
 const fmtDate = (iso?: string) => {
   if (!iso) return '';

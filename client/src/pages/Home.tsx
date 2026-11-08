@@ -1,198 +1,117 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Markdown from '../components/Markdown';
 import {
-  CopyEmailButton,
-  CopyToast,
-  HeaderImageContainer,
-  TopFade,
-  PageTitle,
-  ContentSection,
-  ContentText,
-  FloatingLogo,
-  TitleActions,
-  TitleActionButton,
-  HomeFooter,
-  FooterGrid,
-  FooterHeading,
-  FooterText,
-  FooterFinePrint,
-  FooterCard,
+  HomePage, Hero, PageTitle, HomeColumns, Sidebar, SidebarCard,
+  SidebarHeading, EmailField, ContactLinks, CopyEmailButton, CopyToast,
+  ArticlesNavigation, Editorial, FooterFinePrint,
 } from '../styles/HomePage.styles';
-import { MOBILE_QUERY } from '../utils/responsive';
-import Menu from '../components/Menu';
-import SafeImg from '../components/SafeImg';
-import MobileActionCard from '../components/MobileActionCard';
-import MainStreetImage from '/images/Main Street east side_0001 cropped.jpg';
-import NuartOnMainStreet from '/images/NuartonMainStreetCropped.jpg';
 import homeMd from '../content/home.md?raw';
 
-const Home = () => {
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const [showFloatingLogo, setShowFloatingLogo] = useState(false);
-  const [isMobile, setIsMobile] = useState(
-    () => window.matchMedia(MOBILE_QUERY).matches
-  );
-  const currentYear = new Date().getFullYear();
-  const [copied, setCopied] = useState(false);
-  const copyTimeoutRef = useRef<number | undefined>(undefined);
+const sections = homeMd.trim().split(/\n\n(?=## )/);
+const email = 'nuartfilmclub@gmail.com';
 
-  const handleCopyEmail = async () => {
-    const email = 'nuartfilmclub@gmail.com';
-    // Clear any existing dismissal timer
-    if (copyTimeoutRef.current) {
-      window.clearTimeout(copyTimeoutRef.current);
-    }
+export default function Home() {
+  const [copyMessage, setCopyMessage] = useState('');
+  const copyTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => () => clearTimeout(copyTimeout.current), []);
+
+  const copyEmail = async () => {
+    clearTimeout(copyTimeout.current);
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(email);
       } else {
-        throw new Error('Clipboard API unavailable');
+        const field = document.createElement('textarea');
+        field.value = email;
+        field.style.position = 'fixed';
+        field.style.left = '-9999px';
+        document.body.appendChild(field);
+        field.select();
+        try {
+          if (!document.execCommand('copy')) throw new Error('Copy failed');
+        } finally {
+          field.remove();
+        }
       }
+      setCopyMessage('Email copied');
     } catch {
-      // Fallback for older browsers
-      const textarea = document.createElement('textarea');
-      textarea.value = email;
-      textarea.style.position = 'fixed';
-      textarea.style.left = '-9999px';
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-      try {
-        document.execCommand('copy');
-      } finally {
-        document.body.removeChild(textarea);
-      }
+      setCopyMessage('Unable to copy. Please select the email address.');
     }
-    setCopied(true);
-    copyTimeoutRef.current = window.setTimeout(() => setCopied(false), 2000);
+    copyTimeout.current = setTimeout(() => setCopyMessage(''), 3000);
   };
 
-  useEffect(() => {
-    const mql = window.matchMedia(MOBILE_QUERY);
-    const updateIsMobile = () => setIsMobile(mql.matches);
-    updateIsMobile();
-    mql.addEventListener('change', updateIsMobile);
-    return () => mql.removeEventListener('change', updateIsMobile);
-  }, []);
-
-  useEffect(() => {
-    const title = titleRef.current;
-    if (!isMobile || !title) return;
-
-    // Wait until the entire title has left the viewport, including after resizing.
-    const observer = new IntersectionObserver(([entry]) => {
-      setShowFloatingLogo(!entry.isIntersecting);
-    });
-    observer.observe(title);
-    return () => observer.disconnect();
-  }, [isMobile]);
-
-  useEffect(() => {
-    return () => {
-      if (copyTimeoutRef.current) {
-        window.clearTimeout(copyTimeoutRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <>
-      <TopFade darkFade={isMobile && showFloatingLogo} aria-hidden="true" />
-      <HeaderImageContainer>
-        <FloatingLogo visible={isMobile && showFloatingLogo}>NUART</FloatingLogo>
-        <PageTitle ref={titleRef}>NUART FILM SOCIETY</PageTitle>
-        {/* Desktop-only quick navigation under the title */}
-        {!isMobile && (
-          <TitleActions aria-label="Primary navigation">
-            <TitleActionButton href="/films">Films</TitleActionButton>
-            <TitleActionButton href="/articles">
-              Articles & Reviews
-            </TitleActionButton>
-          </TitleActions>
-        )}
-        <SafeImg
-          src={isMobile ? NuartOnMainStreet : MainStreetImage}
-          alt="Historic Main Street"
+    <HomePage>
+      <Hero>
+        <img
+          src="/images/historic-main-street.png"
+          alt="Historic Main Street in Moscow, Idaho, with the Nuart Theatre marquee"
           loading="eager"
           fetchPriority="high"
         />
-      </HeaderImageContainer>
+        <PageTitle>NUART FILM SOCIETY</PageTitle>
+      </Hero>
 
-      {/* Ensure the Menu icon appears in sync with the floating logo on mobile */}
-      {isMobile && <Menu visibleOverride={showFloatingLogo} />}
+      <HomeColumns>
+        <Sidebar aria-label="Announcements and contact">
+          <SidebarCard aria-labelledby="announcements-heading">
+            <SidebarHeading id="announcements-heading">Announcements</SidebarHeading>
+            <p>Want to stay in the loop? Sign up to notified about each week’s film:</p>
+            {/* The Figma field is a visual preview. Enable it when a mailing-list
+                provider is connected; never imply an address has been saved. */}
+            <EmailField
+              type="email"
+              placeholder="eddiemannix@gmail.com"
+              aria-label="Email address — signup coming soon"
+              title="Email signup coming soon"
+              disabled
+            />
+          </SidebarCard>
 
-      {/* Mobile action card now sits entirely below the header image */}
-      <MobileActionCard />
+          <SidebarCard aria-labelledby="contact-heading" className="contact-card">
+            <SidebarHeading id="contact-heading">Contact Us</SidebarHeading>
+            <p>Reach out to us on social<br />or send us an email.</p>
+            <ContactLinks>
+              <li>
+                <a href="https://www.facebook.com/nuarttheatermoscow" target="_blank" rel="noreferrer noopener">Facebook</a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/nuartfilmsociety" target="_blank" rel="noreferrer noopener">Instagram</a>
+              </li>
+              <li>
+                <CopyEmailButton type="button" onClick={copyEmail} aria-label={`Copy email address ${email} to clipboard`}>
+                  {email}
+                </CopyEmailButton>
+              </li>
+            </ContactLinks>
+            <CopyToast role="status" aria-live="polite">{copyMessage}</CopyToast>
+          </SidebarCard>
 
-      <ContentSection>
-        <ContentText>
-          <Markdown>{homeMd}</Markdown>
-        </ContentText>
+          <ArticlesNavigation aria-label="Articles">
+            <Link to="/articles">
+              Articles &amp; Reviews
+              <img src="/images/external-link.png" width="14" height="14" alt="" />
+            </Link>
+            <p>This page is under development -- more coming soon!</p>
+          </ArticlesNavigation>
+        </Sidebar>
 
-        {/* Footer: Contact + Credits moved to fine print */}
-        <HomeFooter aria-labelledby="home-footer-heading">
-          <FooterGrid>
-            <FooterCard>
-              <FooterHeading id="home-footer-heading">Contact Us</FooterHeading>
-              <FooterText>
-                <p>Reach out to us on social or send us an email.</p>
-                <ul>
-                  <li>
-                    <a
-                      href="https://www.facebook.com/nuarttheatermoscow"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      Facebook
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.instagram.com/nuartfilmsociety"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      Instagram
-                    </a>
-                  </li>
-                  <li>
-                    <CopyEmailButton
-                      type="button"
-                      onClick={handleCopyEmail}
-                      aria-label="Copy email address nuartfilmclub@gmail.com to clipboard"
-                    >
-                      nuartfilmclub@gmail.com
-                    </CopyEmailButton>
-                    {copied && (
-                      <CopyToast
-                        role="status"
-                        aria-live="polite"
-                        aria-atomic="true"
-                      >
-                        Email copied
-                      </CopyToast>
-                    )}
-                  </li>
-                </ul>
-              </FooterText>
-            </FooterCard>
-          </FooterGrid>
-
+        <Editorial>
+          {sections.map((section) => (
+            <section key={section.split('\n')[0]}>
+              <Markdown>{section}</Markdown>
+            </section>
+          ))}
           <FooterFinePrint>
             <address>516 S Main Street, Moscow, Idaho</address>
-            <span>
-              Photography courtesy of Latah County Historical Society Photograph
-              Collection.
-            </span>
-            <span>
-              Website design and development by Henry Sundlie and Clive Miller.
-            </span>
-            <span>© {currentYear} Nuart Film Society</span>
+            <span>Photography courtesy of Latah County Historical Society Photograph Collection.</span>
+            <span>Website design and development by Henry Sundlie and Clive Miller.</span>
+            <span>© {new Date().getFullYear()} Nuart Film Society</span>
           </FooterFinePrint>
-        </HomeFooter>
-      </ContentSection>
-    </>
+        </Editorial>
+      </HomeColumns>
+    </HomePage>
   );
-};
-
-export default Home;
+}
